@@ -1,0 +1,284 @@
+
+{%  include "partials/header.html"%}
+
+
+{% include "partials/sidenav.html"%}
+
+<div class="main"> 
+{% include "partials/nav.html" %}
+
+<br>
+<hr>
+
+<br>
+<hr>
+
+
+
+
+<center>
+    <h1>Material</h1>
+</center>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Categoria</th>
+      <th>Curso</th>
+      <th>Descripcion</th>
+      <th>Modulo</th>
+      <th>Titulo</th>
+      <th>filepath</th>
+      <th>Operacion</th>
+      <th>
+        <a >
+          <button type="button"  data-toggle="modal" id="addButton" onclick="console.log('clickTest6')"
+          data-target="#closeForm" class="btn btn-success" style="margin-left: 1px">Agregar</button>
+      </a>
+      </th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {%for m in material %}
+    <tr>
+      <td>{{ m.id}}</td>
+      <td>{{ m.category}}</td>
+      <td>{{ m.course}}</td>
+      <td>{{ m.description}}</td>
+      <td>{{ m.module}}</td>
+      <td>{{ m.title}}</td>
+      <td>     
+
+        <input type="text" id="filepath" value="{{m.filepath}}" hidden>
+        <div id="player"></div>
+      </td>
+      <td>
+        <a   onclick="edit({{m.id}})">  
+         <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#editForm">Editar</button>
+        </a>
+        <a onclick="deleteE({{m.id}})">
+         <button  type="button" class="btn btn-danger">Borrar</button>
+       </a>
+       </td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="closeForm"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="closeFormLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h5 class="modal-title" id="closeFormLabel">Agregar Material</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div style="background-color: #198754;">
+      <div class="card" style="width: 24rem;">
+        <div class="card-body">
+              <form method="POST" class="" action="/modules">
+        
+                <div class="form-group">
+                  <label for="" class="form-label">Categoria</label>
+                    <select name="category" id="category" class="form-select" onchange="triggerCourse()">
+                      <option >--Seleccion una opcion</option>
+                    </select>
+                </div>
+        
+                <div class="form-group">
+                  <label for="" class="form-label">Curso</label>
+                    <select name="course" id="course" class="form-select" required></select>
+                </div>
+        
+                <br>
+                <div class="form-group">
+                    <label for="" class="form-label">Modulo</label>
+                    <select name="course" id="course" class="form-select" required></select>
+        
+                </div>
+        
+                <div class="form-group">
+                    <label for="" class="form-label">Precio</label>
+        
+                    <div  class="input-group"> 
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                      </div>
+                      <input type="number" id="price" name="price" class="form-control" step="0.1" required>
+                    </div>
+                </div>
+        <br>
+               <button class="btn btn-success" type="submit">Agregar</button>
+              </form>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+
+function init(){
+  let url = "http://localhost:3000/category_course"
+
+
+
+// Replace ./data.json with your JSON feed
+fetch(url)
+  .then((response) => {
+    return response.json()
+  })
+  .then((data) => {
+    // Work with JSON data here
+
+    let obj = JSON.parse(data);
+
+
+    let  select = document.getElementById("category");
+    select.options.length = 0;
+
+    obj.forEach(element => {
+      select.options[select.options.length] = new Option(element.name, element.id);
+
+    });
+
+  })
+  .catch((err) => {
+    // Do something for an error here
+    console.log(err);
+  })
+
+}
+
+
+function triggerCourse(){
+
+
+      let option  = document.getElementById("category").value;
+      let url = "http://localhost:3000/getCourseBy?"+"categoryId="+option;
+  
+      fetch(url)
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => {
+        // Work with JSON data here
+
+        let obj = JSON.parse(data);
+
+        let  select = document.getElementById("course");
+        select.options.length = 0;
+
+        obj.forEach(element => {
+          select.options[select.options.length] = new Option(element.title, element.id);
+   
+        });
+
+      })
+      .catch((err) => {
+        // Do something for an error here
+        console.log(err);
+      })
+
+}
+init();
+
+</script>
+
+
+<script>
+    // 2. This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+
+
+    let filepath = document.getElementById("filepath").value;
+
+    console.log(filepath);
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    var player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '96',
+        width: '160',
+        videoId: filepath,
+        playerVars: {
+          'playsinline': 1
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+      // event.target.playVideo();
+    }
+
+    // 5. The API calls this function when the player's state changes.
+    //    The function indicates that when playing a video (state=1),
+    //    the player should play for six seconds and then stop.
+    var done = false;
+    function onPlayerStateChange(event) {
+      if (event.data == YT.PlayerState.PLAYING && !done) {
+        setTimeout(stopVideo, 6000);
+        done = true;
+      }
+    }
+    function stopVideo() {
+      player.stopVideo();
+    }
+
+
+
+    function deleteE(id){
+      console.log(id);
+
+      $.getJSON("/deleteMaterial?id="+id, data=>{
+        window.location.reload(true);
+      });
+
+
+    }
+
+
+  </script>
+
+
+
+{%  include "partials/footer.html"%}

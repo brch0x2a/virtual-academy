@@ -1,0 +1,6 @@
+projectKey=virtual-academy
+serverUrl=http://localhost:9000
+serverVersion=8.8.0.42792
+dashboardUrl=http://localhost:9000/dashboard?id=virtual-academy
+ceTaskId=AXk_T7orGuq919W_k0QR
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXk_T7orGuq919W_k0QR
