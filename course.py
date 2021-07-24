@@ -22,11 +22,12 @@ class Course:
 
 
 class Module:
-    def __init__(self, id, course, description, title, price):
+    def __init__(self, id, category,  course, description, title, price):
         self.id = id 
         self.course = course
+        self.category = category
         self.description = description
-        self.title = title 
+        self.title = title   
         self.price = price
 
 
@@ -148,12 +149,44 @@ def getAllModules():
 
     for e in result:
 
-        Modules.append(Module(e[0], e[1], e[2], e[3], e[4]))
+        Modules.append(Module(e[0], e[1], e[2], e[3], e[4], e[5]))
 
     db.close()
 
     return Modules
 
+def getModulesBy(id):
+    Modules = []
+    db = pymysql.connect(IP, "brch", PASS, "academy")
+    cursor = db.cursor()
+
+    sql = '''
+    SELECT 
+        M.id, Cc.name, Cs.title, Cs.description, M.title, M.price
+    FROM
+        Module M
+            INNER JOIN
+        Course Cs ON Cs.id = M.id_course
+            INNER JOIN
+        Category_course Cc ON Cc.id = Cs.id_category
+        WHERE
+        Cs.id = %s;
+          '''
+
+    cursor.execute(sql, (id))
+
+    cursor.close()
+
+    result = cursor.fetchall()
+    print(len(result))
+
+    for e in result:
+
+        Modules.append(Module(e[0], e[1], e[2], e[3], e[4], e[5]))
+
+    db.close()
+
+    return Modules
 
 
 def getCourseBy(categoryId):
@@ -247,18 +280,18 @@ def createModule(course, title, price):
     return "Listo"
 
 
-def updateModule(course, title, price):
+
+def createMaterial(module, title, filepath):
     db = pymysql.connect(IP, "brch", PASS, "academy")
 
     title = str(title)
 
-
     cursor = db.cursor()
 
-    sql = "Update INTO Module(id_course, title, price)"\
+    sql = "INSERT INTO Material(id_module, title, filepath)"\
         "Values(%s, %s, %s)"
 
-    cursor.execute(sql, (course, title, price))
+    cursor.execute(sql, (module, title, filepath))
 
     db.commit()
 
@@ -268,6 +301,63 @@ def updateModule(course, title, price):
 
     return "Listo"
 
+
+
+
+def updateModule(course, title, price, id):
+    db = pymysql.connect(IP, "brch", PASS, "academy")
+
+    title = str(title)
+    cursor = db.cursor()
+
+    sql = "Update  Module set id_course=%s, title=%s, price=%s"\
+        "where id = %s"
+
+    cursor.execute(sql, (course, title, price, id))
+
+    db.commit()
+
+    cursor.close()
+
+    db.close()
+
+    return "Listo"
+
+
+def getModuleE(id):
+    Modules = []
+    db = pymysql.connect(IP, "brch", PASS, "academy")
+    cursor = db.cursor()
+
+
+    sql = '''
+    SELECT 
+        M.id, Cc.name, Cs.title, Cs.description, M.title, M.price
+    FROM
+        Module M
+            INNER JOIN
+        Course Cs ON Cs.id = M.id_course
+            INNER JOIN
+        Category_course Cc ON Cc.id = Cs.id_category
+        where M.id=%s;
+          '''
+
+    cursor.execute(sql, (id))
+
+    cursor.close()
+
+    result = cursor.fetchall()
+    print(len(result))
+
+    for e in result:
+
+        print(e[4])
+        Modules.append(Module(e[0], e[1], e[2], e[3], e[4], e[5]))
+
+
+    db.close()
+
+    return Modules
 
 
 
@@ -315,17 +405,66 @@ def getAllMaterial():
 
 
 
-def updateCourseCatalog(category, title, description, uid):
+
+
+
+def getMaterialBy(moduleId):
+    Materials = []
+    db = pymysql.connect(IP, "brch", PASS, "academy")
+    cursor = db.cursor()
+
+    sql = '''
+        SELECT 
+            M.id,
+            Cc.name,
+            Cs.title,
+            Cs.description,
+            Md.title,
+            M.title,
+            M.filepath
+        FROM
+            Material M
+                INNER JOIN
+            Module Md ON Md.id = M.id_module
+                INNER JOIN
+            Course Cs ON Cs.id = Md.id_course
+                INNER JOIN
+            Category_course Cc ON Cc.id = Cs.id_category
+            Where 
+            Md.id = %s;
+          '''
+
+    cursor.execute(sql, (moduleId))
+
+    cursor.close()
+
+    result = cursor.fetchall()
+    print(len(result))
+
+    for e in result:
+
+        Materials.append(Material(e[0], e[1], e[2], e[3], e[4], e[5], e[6]))
+
+
+    db.close()
+
+    return Materials
+
+
+
+def updateCourseCatalog(category, title, description, uid, uimage):
     db = pymysql.connect(IP, "brch", PASS, "academy")
 
     title = str(title)
     category = str(category)
     description = str(description)
     uid = str(uid)
+    image = str(uimage)
 
 
-    print("id:%s\t t: %s c: %s d:%s"%(uid, title, category, description))
 
+    print(image)
+    # print("id:%s\t t: %s c: %s d:%s\timage:%s"%(uid, title, category, description, image))
 
     cursor = db.cursor()
 
@@ -334,12 +473,13 @@ def updateCourseCatalog(category, title, description, uid):
             SET 
                 id_category = %s,
                 title = %s,
-                description = %s
+                description = %s,
+                image= %s
             WHERE
                 id = %s
     '''
 
-    cursor.execute(sql, (category, title, description, uid))
+    cursor.execute(sql, (category, title, description, image, uid))
 
     db.commit()
 
@@ -348,6 +488,7 @@ def updateCourseCatalog(category, title, description, uid):
     db.close()
 
     return "Listo"
+
 
 
 
@@ -436,3 +577,7 @@ def deleteCourseBy(id):
     db.close()
 
     return "Done"
+
+
+
+

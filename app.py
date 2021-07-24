@@ -54,7 +54,10 @@ def home():
 
     if 'loggedin' in session:
 
-        return render_template("home.html", username=session["username"])
+        Course = getAllCourses()
+
+
+        return render_template("home.html", username=session["username"], course=Course)
     
     return redirect(f"/")
 
@@ -100,6 +103,8 @@ def catalogoCursos():
 
 
 
+
+
 @app.route("/deleteMaterial")
 def deleteMaterial():
 
@@ -133,14 +138,13 @@ def deleteCourse():
 def material():
     if request.method == 'POST':
 
-        course = str(request.form['course'])
+        module = str(request.form['module'])
         title = str(request.form['title'])
-        price = str(request.form['price'])
+        video = str(request.form['video'])
 
-
-        # print("%s %s %s"%(course, title, price))
-        # done = createModule(course, title, price)
-        # print(done)
+        print("%s %s %s"%(module, title, video))
+        done = createMaterial(module, title, video)
+        print(done)
 
         return redirect(f"/material")
 
@@ -166,6 +170,27 @@ def modules():
     Modules = getAllModules()
 
     return render_template("Modules.html", modules=Modules)
+
+
+@app.route("/updateModules", methods=['POST'])
+def updateModules():
+
+    if request.method == 'POST':
+
+        title = str(request.form['utitle'])
+        course = int(request.form['ucourse'])
+        
+        price = str(request.form['uprice'])
+        uid = str(request.form['uid'])
+
+
+        print("%s %s %s %s"%(title, course, price, uid))
+        updateModule(course, title, price, uid)
+
+        return redirect(f"/modules")
+
+
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -205,10 +230,6 @@ def category_courseBy():
     return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
 
 
-
-
-
-
 @app.route("/getCourseE", methods=['GET'])
 def category_courseE():
 
@@ -222,11 +243,61 @@ def category_courseE():
     return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
 
 
+
+
+@app.route("/getModuleBy", methods=['GET'])
+def get_ModulesBy():
+
+    id = str(request.args.get("id"))
+
+    print(id)
+
+    # Colection = []
+    Colection = getModulesBy(id)
+
+    return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+
+
+@app.route("/getMaterialBy", methods=['GET'])
+def get_MaterialsBy():
+
+    id = str(request.args.get("id"))
+
+    print(id)
+
+    # Colection = []
+    Colection = getMaterialBy(id)
+
+    return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+
+
+
+@app.route("/getModuleE", methods=['GET'])
+def category_moduleE():
+
+    id = str(request.args.get("id"))
+
+    print(id)
+
+    # Colection = []
+    Colection = getModuleE(id)
+
+    return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+
+
+
 @app.route('/users', methods=['GET', 'POST'])
 def allUser():
     User = getAllUser()
 
     return render_template("User.html", users=User)
+
+
+@app.route('/quiz', methods=['GET', 'POST'])
+def quiz():
+    # User = getAllUser()
+
+    return render_template("Quiz.html")
 
 
 
@@ -249,13 +320,30 @@ def updateCourse():
         uid = str(request.form['uid'])
 
         # print("id:%s\t t: %s c: %s d:%s"%(id, title, category, description))
-        updateCourseCatalog(category, title, description, uid)
 
+        if 'file' not in request.files:
+                    flash('No file part')
+                    return redirect(request.url)
+
+        file = request.files['file']
+
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        print("Update Course")
+
+        print(filename)
+        answer = updateCourseCatalog(category, title, description, uid, "public/uploads/"+filename)
+
+        print(answer)
         return redirect(f"/catalogoCursos")
 
 
     return render_template("newCourse.html") 
-
 
 
 if __name__ == '__main__':

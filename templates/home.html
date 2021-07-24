@@ -11,9 +11,29 @@
 
     </div>
 
+<br>
+<hr>
+    <div class="row">
+    
+      {% for c in course%}
+      <div class="col"> 
+        <div class="card" style="width: 18rem;">
+          <img  width="200" height="200" style="object-fit: scale-down;" class="card-img-top" src="{{ c.image}}" alt="Card image cap"> 
+          <div class="card-body">
+            <h5 class="card-title">{{c.title}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{c.category}}</h6>
+            <p class="card-text">{{ c.description}}</p>
+            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+          </div>
+        </div>
+
+      </div>
+      {%endfor%}
+  
+  </div>
+  
+
 </div>
-
-
 
 <script src="{{url_for('static', filename='js/sidenav.js')}}"></script>
 
@@ -27,10 +47,10 @@
       this.classList.toggle("active");
       var dropdownContent = this.nextElementSibling;
       if (dropdownContent.style.display === "block") {
-      dropdownContent.style.display = "none";
+          dropdownContent.style.display = "none";
       } else {
-      dropdownContent.style.display = "block";
-      }
+          dropdownContent.style.display = "block";
+        }
       });
     }
     </script>

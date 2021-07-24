@@ -1,0 +1,11 @@
+[
+
+	{"question":"Capital de CR?",
+	"choices":["Heredia","Alajuela","Sanjose","Cartago"],
+	"correctAnswer":3},
+
+	{"question":"independencia de costa rica?",
+	"choices":["1492","1776","1821","1791"],
+	"correctAnswer":3}
+	
+]

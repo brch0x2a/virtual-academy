@@ -13,9 +13,6 @@
 <br>
 <hr>
 
-
-
-
 <center>
     <h1>Material</h1>
 </center>
@@ -97,38 +94,40 @@
       <div style="background-color: #198754;">
       <div class="card" style="width: 24rem;">
         <div class="card-body">
-              <form method="POST" class="" action="/modules">
+              <form method="POST" class="" action="/material">
         
                 <div class="form-group">
                   <label for="" class="form-label">Categoria</label>
-                    <select name="category" id="category" class="form-select" onchange="triggerCourse()">
+                    <select name="category" id="category" class="form-select" onchange="triggerNext('category', 'course')">
                       <option >--Seleccion una opcion</option>
                     </select>
                 </div>
         
                 <div class="form-group">
                   <label for="" class="form-label">Curso</label>
-                    <select name="course" id="course" class="form-select" required></select>
+                    <select name="course" id="course" class="form-select" onchange="triggerNextNext('course', 'module')" required></select>
                 </div>
         
                 <br>
                 <div class="form-group">
                     <label for="" class="form-label">Modulo</label>
-                    <select name="course" id="course" class="form-select" required></select>
+                    <select name="module" id="module" class="form-select" required></select>
         
                 </div>
-        
+                <br>
                 <div class="form-group">
-                    <label for="" class="form-label">Precio</label>
-        
-                    <div  class="input-group"> 
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                      </div>
-                      <input type="number" id="price" name="price" class="form-control" step="0.1" required>
-                    </div>
+                  <label for="" class="form-label">Titulo del material</label>
+                  <input name="title" type="text" class="form-control" required>
                 </div>
-        <br>
+
+                <br>
+
+                <div class="form-group">
+                <label for="" class="form-label">Video Key</label>
+
+                <textarea class="form-control" name="video" id="video" rows="3"></textarea>
+                </div>
+
                <button class="btn btn-success" type="submit">Agregar</button>
               </form>
             </div>
@@ -145,11 +144,8 @@
 
 <script type="text/javascript">
 
-
-function init(){
+function initCategoryCollection(selectId){
   let url = "http://localhost:3000/category_course"
-
-
 
 // Replace ./data.json with your JSON feed
 fetch(url)
@@ -162,12 +158,11 @@ fetch(url)
     let obj = JSON.parse(data);
 
 
-    let  select = document.getElementById("category");
+    let  select = document.getElementById(selectId);
     select.options.length = 0;
 
     obj.forEach(element => {
       select.options[select.options.length] = new Option(element.name, element.id);
-
     });
 
   })
@@ -179,10 +174,9 @@ fetch(url)
 }
 
 
-function triggerCourse(){
+function triggerNext(selectIdA, selectIdB){
 
-
-      let option  = document.getElementById("category").value;
+      let option  = document.getElementById(selectIdA).value;
       let url = "http://localhost:3000/getCourseBy?"+"categoryId="+option;
   
       fetch(url)
@@ -194,7 +188,7 @@ function triggerCourse(){
 
         let obj = JSON.parse(data);
 
-        let  select = document.getElementById("course");
+        let  select = document.getElementById(selectIdB);
         select.options.length = 0;
 
         obj.forEach(element => {
@@ -209,7 +203,60 @@ function triggerCourse(){
       })
 
 }
-init();
+
+function triggerNextNext(selectIdA, selectIdB){
+
+let option  = document.getElementById(selectIdA).value;
+let url = "http://localhost:3000/getModuleBy?"+"id="+option;
+
+fetch(url)
+.then((response) => {
+  return response.json()
+})
+.then((data) => {
+  // Work with JSON data here
+
+  let obj = JSON.parse(data);
+
+  let  select = document.getElementById(selectIdB);
+  select.options.length = 0;
+
+  obj.forEach(element => {
+    select.options[select.options.length] = new Option(element.title, element.id);
+
+  });
+
+})
+.catch((err) => {
+  // Do something for an error here
+  console.log(err);
+})
+
+}
+
+
+function edit(id){
+      console.log("id: "+id);
+
+      initCategoryCollection("ucategory");
+
+
+      $.getJSON("/getModuleE?id="+id, data =>{
+        let obj = JSON.parse(data);
+        console.log(obj[0]);
+
+        $("input[name='utitle']").val(obj[0].title);
+        $("input[name='uprice']").val(obj[0].price);
+
+        $("input[name='uid']").val(obj[0].id);
+        
+      });
+    }
+
+
+initCategoryCollection('category');
+initCategoryCollection('ucategory');
+
 
 </script>
 

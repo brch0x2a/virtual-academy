@@ -13,9 +13,23 @@ create table User_table(
 
 use academy;
 
+create table Branch_of_knowledge(
+    id int not null AUTO_INCREMENT PRIMARY KEY,
+	name  varchar(50),
+    image varchar(250)
+) 
+
+
+
 create table Category_course(
 	id int not null AUTO_INCREMENT PRIMARY KEY,
-	name  varchar(50)
+	name  varchar(50),
+        
+	id_branch int not null,
+	FOREIGN key fk_id_branchfromBranch_of_knowledge(id_branch)
+	REFERENCES Branch_of_knowledge(id)
+	on DELETE RESTRICT
+	on UPDATE CASCADE,
 );
 
 create table Course(
@@ -60,5 +74,14 @@ CREATE TABLE Material (
     filepath VARCHAR(250)
 );
 
+CREATE table Enrollment(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 
+    id_course INT NOT NULL,
+    FOREIGN KEY fk_id_course_fromCourse(id_course)
+        REFERENCES Course (id)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+
+
+)
 

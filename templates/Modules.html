@@ -10,7 +10,6 @@
 
 <br>
 
-
 <br>
 <hr>
 <center>
@@ -39,6 +38,7 @@
     {%for m in modules %}
     <tr>
       <td>{{ m.id}}</td>
+      <td>{{ m.category}}</td>
       <td>{{ m.course}}</td>
       <td>{{ m.description}}</td>
       <td>{{ m.title}}</td>
@@ -57,8 +57,6 @@
   </tbody>
 </table>
 </div>
-
-
 
 
 <!-- Modal -->
@@ -91,7 +89,7 @@
 
         <div class="form-group">
           <label for="" class="form-label">Categoria</label>
-            <select name="category" id="category" class="form-select" onchange="triggerCourse()">
+            <select name="category" id="category" class="form-select" onchange="triggerCourse('category', 'course')">
               <option >--Seleccion una opcion</option>
             </select>
         </div>
@@ -134,16 +132,87 @@
 </div>
 
 
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="editForm"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="closeFormLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="closeFormLabel">Editar Modulo</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div style="background-color: #0d6efd;">
+      <div class="card" style="width: 24rem;">
+        <div class="card-body">
+    
+          <form method="POST" class="" action="/updateModules">
+
+            <input type="number" id="uid" name="uid" hidden>
+
+
+            <div class="form-group">
+              <label for="" class="form-label">Categoria</label>
+                <select name="ucategory" id="ucategory" class="form-select" onchange="triggerCourse('ucategory', 'ucourse')">
+                  <option >--Seleccion una opcion</option>
+                </select>
+            </div>
+    
+            <div class="form-group">
+              <label for="" class="form-label">Curso</label>
+                <select name="ucourse" id="ucourse" class="form-select" required></select>
+            </div>
+    
+            <br>
+            <div class="form-group">
+                <label for="" class="form-label">Titulo del Modulo</label>
+                <input name="utitle"  type="text" class="form-control" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="" class="form-label">Precio</label>
+    
+                <div  class="input-group"> 
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                  </div>
+                  <input type="number" id="uprice" name="uprice" class="form-control" step="0.1" required>
+    
+                </div>
+    
+            </div>
+    <br>
+           <button class="btn btn-primary" type="submit">Editar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+</div>
+
+
 
 
 
 <script type="text/javascript">
 
 
-function init(){
+function initCategoryCollection(selectId){
   let url = "http://localhost:3000/category_course"
-
-
 
 // Replace ./data.json with your JSON feed
 fetch(url)
@@ -156,12 +225,11 @@ fetch(url)
     let obj = JSON.parse(data);
 
 
-    let  select = document.getElementById("category");
+    let  select = document.getElementById(selectId);
     select.options.length = 0;
 
     obj.forEach(element => {
       select.options[select.options.length] = new Option(element.name, element.id);
-
     });
 
   })
@@ -173,10 +241,9 @@ fetch(url)
 }
 
 
-function triggerCourse(){
+function triggerCourse(selectIdA, selectIdB){
 
-
-      let option  = document.getElementById("category").value;
+      let option  = document.getElementById(selectIdA).value;
       let url = "http://localhost:3000/getCourseBy?"+"categoryId="+option;
   
       fetch(url)
@@ -188,7 +255,7 @@ function triggerCourse(){
 
         let obj = JSON.parse(data);
 
-        let  select = document.getElementById("course");
+        let  select = document.getElementById(selectIdB);
         select.options.length = 0;
 
         obj.forEach(element => {
@@ -203,8 +270,25 @@ function triggerCourse(){
       })
 
 }
-init();
 
+
+function edit(id){
+      console.log("id: "+id);
+
+      initCategoryCollection("ucategory");
+
+
+      $.getJSON("/getModuleE?id="+id, data =>{
+        let obj = JSON.parse(data);
+        console.log(obj[0]);
+
+        $("input[name='utitle']").val(obj[0].title);
+        $("input[name='uprice']").val(obj[0].price);
+
+        $("input[name='uid']").val(obj[0].id);
+        
+      });
+    }
 
 
 function deleteE(id){
@@ -214,8 +298,14 @@ function deleteE(id){
         window.location.reload(true);
       });
 
-
     }
+
+initCategoryCollection('category');
+initCategoryCollection('ucategory');
+
+
+
+
 
 </script>
 
