@@ -1,3 +1,13 @@
+
+CREATE USER 'new_user'@'localhost' IDENTIFIED BY 'password';
+
+GRANT ALL PRIVILEGES ON * . * TO 'new_user'@'localhost';
+
+FLUSH PRIVILEGES;
+
+use academy;
+
+
 create table User_table(
     id int not null AUTO_INCREMENT PRIMARY KEY,
 
@@ -10,16 +20,11 @@ create table User_table(
     card_number varchar(100)
 );
 
-
-use academy;
-
 create table Branch_of_knowledge(
     id int not null AUTO_INCREMENT PRIMARY KEY,
 	name  varchar(50),
     image varchar(250)
-) 
-
-
+) ;
 
 create table Category_course(
 	id int not null AUTO_INCREMENT PRIMARY KEY,
@@ -29,7 +34,7 @@ create table Category_course(
 	FOREIGN key fk_id_branchfromBranch_of_knowledge(id_branch)
 	REFERENCES Branch_of_knowledge(id)
 	on DELETE RESTRICT
-	on UPDATE CASCADE,
+	on UPDATE CASCADE
 );
 
 create table Course(
@@ -80,8 +85,6 @@ CREATE table Enrollment(
     id_course INT NOT NULL,
     FOREIGN KEY fk_id_course_fromCourse(id_course)
         REFERENCES Course (id)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-
-
+        ON DELETE RESTRICT ON UPDATE CASCADE
 )
 
