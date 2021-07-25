@@ -12,7 +12,7 @@ from app.module.user import controller as module_user
 from app.module.course import controller as module_course
 
 
-UPLOAD_FOLDER = 'static/uploads/'
+UPLOAD_FOLDER = 'app/static/uploads/'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__, static_url_path='/public')
@@ -101,7 +101,7 @@ def catalogoCursos():
     Course = module_course.getAllCourses()
 
 
-    return render_template("CatalogoCursos.html", course=Course)
+    return render_template("module_course/category_course.html", course=Course)
 
 
 @app.route("/deleteMaterial")
@@ -146,7 +146,7 @@ def material():
 
     Material = module_course.getAllMaterial()
 
-    return render_template("Material.html", material=Material)
+    return render_template("module_course/material.html", material=Material)
 
 @app.route('/modules', methods=['GET', 'POST'])
 def modules():
@@ -165,7 +165,7 @@ def modules():
 
     Modules = module_course.getAllModules()
 
-    return render_template("Modules.html", modules=Modules)
+    return render_template("module_course/modules.html", modules=Modules)
 
 
 @app.route("/updateModules", methods=['POST'])
@@ -203,7 +203,7 @@ def signup():
         return redirect(f"/")
 
 
-    return render_template("signup.html")
+    return render_template("auth/signup.html")
 
 
 @app.route("/category_course", methods=['GET'])
@@ -339,6 +339,7 @@ def updateCourse():
         return redirect(f"/catalogoCursos")
 
 
-    return render_template("newCourse.html") 
+    # return render_template("newCourse.html") 
+    return redirect(f"/catalogoCursos")
 
 
