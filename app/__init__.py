@@ -5,6 +5,11 @@ from flask import json
 from werkzeug.utils import secure_filename
 import os
 
+# from . import module_user
+# from . import module_course
+
+from app.module.user import controller as module_user 
+from app.module.course import controller as module_course
 
 
 UPLOAD_FOLDER = 'static/uploads/'
@@ -30,7 +35,7 @@ def index():
 
         print("login")
 
-        access = authUser(user, password)
+        access =  module_user.authUser(user, password)
         msg = "credenciales incorrectas"
 
         if access:
@@ -51,7 +56,7 @@ def home():
 
     if 'loggedin' in session:
 
-        Course = getAllCourses()
+        Course = module_course.getAllCourses()
 
 
         return render_template("home.html", username=session["username"], course=Course)
@@ -88,12 +93,12 @@ def catalogoCursos():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         # print("%s %s %s"%(title, category, description))
      
-        createCourse(title, category, description, "public/uploads/"+filename)
+        module_course.createCourse(title, category, description, "public/uploads/"+filename)
 
 
         return redirect(f"/catalogoCursos")
 
-    Course = getAllCourses()
+    Course = module_course.getAllCourses()
 
 
     return render_template("CatalogoCursos.html", course=Course)
@@ -103,7 +108,7 @@ def catalogoCursos():
 def deleteMaterial():
 
     mid = str(request.args.get("id"))
-    deleteMaterialBy(mid)
+    module_course.deleteMaterialBy(mid)
 
     return redirect(f"/material")
 
@@ -112,7 +117,7 @@ def deleteMaterial():
 def deleteModule():
 
     mid = str(request.args.get("id"))
-    deleteModuleBy(mid)
+    module_course.deleteModuleBy(mid)
 
     return redirect(f"/modules")
 
@@ -120,7 +125,7 @@ def deleteModule():
 def deleteCourse():
 
     mid = str(request.args.get("id"))
-    deleteCourseBy(mid)
+    module_course.deleteCourseBy(mid)
 
     return redirect(f"/catalogoCursos")
 
@@ -134,12 +139,12 @@ def material():
         video = str(request.form['video'])
 
         print("%s %s %s"%(module, title, video))
-        done = createMaterial(module, title, video)
+        done = module_course.createMaterial(module, title, video)
         print(done)
 
         return redirect(f"/material")
 
-    Material = getAllMaterial()
+    Material = module_course.getAllMaterial()
 
     return render_template("Material.html", material=Material)
 
@@ -153,12 +158,12 @@ def modules():
 
 
         # print("%s %s %s"%(course, title, price))
-        done = createModule(course, title, price)
+        done = module_course.createModule(course, title, price)
         # print(done)
 
         return redirect(f"/modules")
 
-    Modules = getAllModules()
+    Modules = module_course.getAllModules()
 
     return render_template("Modules.html", modules=Modules)
 
@@ -176,7 +181,7 @@ def updateModules():
 
 
         print("%s %s %s %s"%(title, course, price, uid))
-        updateModule(course, title, price, uid)
+        module_course.updateModule(course, title, price, uid)
 
         return redirect(f"/modules")
 
@@ -191,7 +196,7 @@ def signup():
         mail = str(request.form['mail'])
         password = str(request.form['pass'])
 
-        done = createUser(nick_name, mail, password)
+        done = module_user.createUser(nick_name, mail, password)
         
         print(done)
 
@@ -204,7 +209,7 @@ def signup():
 @app.route("/category_course", methods=['GET'])
 def category_course():
 
-    Catalog = getCategory_course()
+    Catalog = module_course.getCategory_course()
 
     return jsonify( json.dumps([ obj.__dict__ for obj in Catalog] )), 200
 
@@ -216,7 +221,7 @@ def category_courseBy():
     print(categoryId)
 
     # Colection = []
-    Colection = getCourseBy(categoryId)
+    Colection = module_course.getCourseBy(categoryId)
 
     return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
 
@@ -229,7 +234,7 @@ def category_courseE():
     print(id)
 
     # Colection = []
-    Colection = getCourseE(id)
+    Colection = module_course.getCourseE(id)
 
     return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
 
@@ -244,7 +249,7 @@ def get_ModulesBy():
     print(id)
 
     # Colection = []
-    Colection = getModulesBy(id)
+    Colection = module_course.getModulesBy(id)
 
     return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
 
@@ -257,7 +262,7 @@ def get_MaterialsBy():
     print(id)
 
     # Colection = []
-    Colection = getMaterialBy(id)
+    Colection = module_course.getMaterialBy(id)
 
     return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
 
@@ -271,7 +276,7 @@ def category_moduleE():
     print(id)
 
     # Colection = []
-    Colection = getModuleE(id)
+    Colection = module_course.getModuleE(id)
 
     return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
 
@@ -279,7 +284,7 @@ def category_moduleE():
 
 @app.route('/users', methods=['GET', 'POST'])
 def allUser():
-    User = getAllUser()
+    User = module_user.getAllUser()
 
     return render_template("User.html", users=User)
 
@@ -328,7 +333,7 @@ def updateCourse():
         print("Update Course")
 
         print(filename)
-        answer = updateCourseCatalog(category, title, description, uid, "public/uploads/"+filename)
+        answer = module_course.updateCourseCatalog(category, title, description, uid, "public/uploads/"+filename)
 
         print(answer)
         return redirect(f"/catalogoCursos")

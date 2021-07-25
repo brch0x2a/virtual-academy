@@ -6,7 +6,7 @@ IP = "localhost"
 PASS = "wrf!C:w(>7:&"
 
 
-db = pymysql.connect(IP, "brch", PASS, "academy")
+db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
 
 
 class User_table:
@@ -19,7 +19,7 @@ class User_table:
 
 def createUser(pnick_name,  pemail, ppassword):
 
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
 
     nick_name = str(pnick_name)
     email = str(pemail)
@@ -43,7 +43,7 @@ def createUser(pnick_name,  pemail, ppassword):
 
 def getAllUser():
     Users = []
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
 
@@ -71,7 +71,6 @@ FROM
 
 
 def authUser(username, password):
-    db = pymysql.connect(IP, "brch", PASS, "academy")
     cursor = db.cursor()
 
 

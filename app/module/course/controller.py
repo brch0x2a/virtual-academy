@@ -1,16 +1,13 @@
 
 # COURSE
 
-
-
 import pymysql
 
 IP = "localhost"
 PASS = "wrf!C:w(>7:&"
 
 
-db = pymysql.connect(IP, "brch", PASS, "academy")
-
+db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
 
 class Category_course:
     def __init__(self, id, name):
@@ -49,7 +46,7 @@ class Material:
 
 def getCategory_course():
     Catalog = []
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
 
@@ -76,7 +73,7 @@ def getCategory_course():
 
 
 def createCourse(title, category, description, image):
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
 
     title = str(title)
 
@@ -99,7 +96,7 @@ def createCourse(title, category, description, image):
 
 def getAllCourses():
     Courses = []
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
 
@@ -131,7 +128,7 @@ def getAllCourses():
 
 def getAllModules():
     Modules = []
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
     sql = '''
@@ -162,7 +159,7 @@ def getAllModules():
 
 def getModulesBy(id):
     Modules = []
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
     sql = '''
@@ -196,7 +193,7 @@ def getModulesBy(id):
 
 def getCourseBy(categoryId):
     Courses = []
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
 
@@ -231,7 +228,7 @@ def getCourseBy(categoryId):
 
 def getCourseE(id):
     Courses = []
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
 
@@ -264,7 +261,7 @@ def getCourseE(id):
 
 
 def createModule(course, title, price):
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
 
     title = str(title)
 
@@ -287,7 +284,7 @@ def createModule(course, title, price):
 
 
 def createMaterial(module, title, filepath):
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
 
     title = str(title)
 
@@ -310,7 +307,7 @@ def createMaterial(module, title, filepath):
 
 
 def updateModule(course, title, price, id):
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
 
     title = str(title)
     cursor = db.cursor()
@@ -331,7 +328,7 @@ def updateModule(course, title, price, id):
 
 def getModuleE(id):
     Modules = []
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
 
@@ -369,7 +366,7 @@ def getModuleE(id):
 
 def getAllMaterial():
     Materials = []
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
 
@@ -415,7 +412,7 @@ def getAllMaterial():
 
 def getMaterialBy(moduleId):
     Materials = []
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
     sql = '''
@@ -458,7 +455,7 @@ def getMaterialBy(moduleId):
 
 
 def updateCourseCatalog(category, title, description, uid, uimage):
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
 
     title = str(title)
     category = str(category)
@@ -501,7 +498,7 @@ def updateCourseCatalog(category, title, description, uid, uimage):
 def deleteMaterialBy(id):
 
 
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
 
@@ -528,7 +525,7 @@ def deleteMaterialBy(id):
 def deleteModuleBy(id):
 
 
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
     print("delete id: %s", id)
@@ -559,7 +556,7 @@ def deleteModuleBy(id):
 def deleteCourseBy(id):
 
 
-    db = pymysql.connect(IP, "brch", PASS, "academy")
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
     cursor = db.cursor()
 
     print("delete id: %s", id)
