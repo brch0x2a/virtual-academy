@@ -13,6 +13,7 @@ site_api = Blueprint('site_api', __name__)
 def index():
 
 
+    # return render_template("site/index.html")
     return redirect(f"/login")
 
 

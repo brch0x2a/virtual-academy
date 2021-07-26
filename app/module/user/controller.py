@@ -1,20 +1,13 @@
 # User
 
 import pymysql
+from app.module.user.models import User_table
 
 IP = "localhost"
 PASS = "wrf!C:w(>7:&"
 
 
 db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
-
-
-class User_table:
-    def __init__(self, id, nick_name, email, password):
-        self.id = id
-        self.nick_name = nick_name
-        self.email = email
-        self.password = password
 
 
 def createUser(pnick_name,  pemail, ppassword):
@@ -71,6 +64,8 @@ FROM
 
 
 def authUser(username, password):
+    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+
     cursor = db.cursor()
 
 

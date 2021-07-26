@@ -44,3 +44,21 @@ def logout():
     session.pop('username', None)
 
     return redirect(f"/")
+
+
+@auth_api.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+
+        nick_name = str(request.form['nick_name'])
+        mail = str(request.form['mail'])
+        password = str(request.form['pass'])
+
+        done = user_module.createUser(nick_name, mail, password)
+        
+        print(done)
+
+        return redirect(f"/")
+
+
+    return render_template("auth/signup.html")
