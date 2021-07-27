@@ -8,8 +8,13 @@ from app.module.auth.routes import auth_api
 from app.module.site.routes import site_api
 from app.module.course.routes import course_api
 
+import os
+from dotenv import load_dotenv
 
-UPLOAD_FOLDER = 'app/static/uploads/'
+load_dotenv()
+
+
+UPLOAD_FOLDER = os.environ.get("APP_UPLOAD_FOLDER")
 
 app = Flask(__name__, static_url_path='/public')
 

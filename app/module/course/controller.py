@@ -2,22 +2,23 @@
 # COURSE
 
 import pymysql
+import os
+from dotenv import load_dotenv
 from app.module.course.models import Category_course
 from app.module.course.models import Course
 from app.module.course.models import Module
 from app.module.course.models import Material
 
+load_dotenv()
 
-IP = "localhost"
-PASS = "wrf!C:w(>7:&"
-
-
-db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
-
+MYSQL_HOST = os.environ.get("MYSQL_HOST")
+MYSQL_USER = os.environ.get("MYSQL_USER")
+MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
+MYSQL_DB = os.environ.get("MYSQL_DB")
 
 def getCategory_course():
     Catalog = []
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
 
@@ -44,7 +45,7 @@ def getCategory_course():
 
 
 def createCourse(title, category, description, image):
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
 
     title = str(title)
 
@@ -67,7 +68,7 @@ def createCourse(title, category, description, image):
 
 def getAllCourses():
     Courses = []
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
 
@@ -99,7 +100,7 @@ def getAllCourses():
 
 def getAllModules():
     Modules = []
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
     sql = '''
@@ -130,7 +131,7 @@ def getAllModules():
 
 def getModulesBy(id):
     Modules = []
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
     sql = '''
@@ -164,7 +165,7 @@ def getModulesBy(id):
 
 def getCourseBy(categoryId):
     Courses = []
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
 
@@ -199,7 +200,7 @@ def getCourseBy(categoryId):
 
 def getCourseE(id):
     Courses = []
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
 
@@ -232,7 +233,7 @@ def getCourseE(id):
 
 
 def createModule(course, title, price):
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
 
     title = str(title)
 
@@ -255,7 +256,7 @@ def createModule(course, title, price):
 
 
 def createMaterial(module, title, filepath):
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
 
     title = str(title)
 
@@ -278,7 +279,7 @@ def createMaterial(module, title, filepath):
 
 
 def updateModule(course, title, price, id):
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
 
     title = str(title)
     cursor = db.cursor()
@@ -299,7 +300,7 @@ def updateModule(course, title, price, id):
 
 def getModuleE(id):
     Modules = []
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
 
@@ -337,7 +338,7 @@ def getModuleE(id):
 
 def getAllMaterial():
     Materials = []
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
 
@@ -383,7 +384,7 @@ def getAllMaterial():
 
 def getMaterialBy(moduleId):
     Materials = []
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
     sql = '''
@@ -426,7 +427,7 @@ def getMaterialBy(moduleId):
 
 
 def updateCourseCatalog(category, title, description, uid, uimage):
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
 
     title = str(title)
     category = str(category)
@@ -469,7 +470,7 @@ def updateCourseCatalog(category, title, description, uid, uimage):
 def deleteMaterialBy(id):
 
 
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
 
@@ -496,7 +497,7 @@ def deleteMaterialBy(id):
 def deleteModuleBy(id):
 
 
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
     print("delete id: %s", id)
@@ -527,7 +528,7 @@ def deleteModuleBy(id):
 def deleteCourseBy(id):
 
 
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
     print("delete id: %s", id)

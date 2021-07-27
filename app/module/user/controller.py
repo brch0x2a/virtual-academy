@@ -1,18 +1,21 @@
 # User
 
 import pymysql
+import os
 from app.module.user.models import User_table
+from dotenv import load_dotenv
 
-IP = "localhost"
-PASS = "wrf!C:w(>7:&"
+load_dotenv()
 
-
-db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+MYSQL_HOST = os.environ.get("MYSQL_HOST")
+MYSQL_USER = os.environ.get("MYSQL_USER")
+MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
+MYSQL_DB = os.environ.get("MYSQL_DB")
 
 
 def createUser(pnick_name,  pemail, ppassword):
 
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
 
     nick_name = str(pnick_name)
     email = str(pemail)
@@ -36,7 +39,7 @@ def createUser(pnick_name,  pemail, ppassword):
 
 def getAllUser():
     Users = []
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
 
@@ -64,7 +67,7 @@ FROM
 
 
 def authUser(username, password):
-    db = pymysql.connect(host=IP, user="brch", password=PASS, db="academy")
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
 
     cursor = db.cursor()
 

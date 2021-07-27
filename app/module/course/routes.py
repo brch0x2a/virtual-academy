@@ -4,15 +4,19 @@ from flask import jsonify
 from flask import Blueprint
 from flask import json
 from werkzeug.utils import secure_filename
+
 import os
+from dotenv import load_dotenv
 
 from app.module.course import controller as course_module
 from app.module.user import controller as user_module 
 
+load_dotenv()
 
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
+UPLOAD_FOLDER = os.environ.get("APP_UPLOAD_FOLDER")
 
 course_api = Blueprint('course_api', __name__)
 
@@ -43,7 +47,7 @@ def catalogoCursos():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(course_api.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
         # print("%s %s %s"%(title, category, description))
      
         course_module.createCourse(title, category, description, "public/uploads/"+filename)
@@ -252,7 +256,7 @@ def updateCourse():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(course_api.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
 
         print("Update Course")
 
