@@ -184,6 +184,10 @@ def get_ModulesBy():
 
     return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
 
+@course_api.route("/branch_of_knowledge", methods=['GET'])
+def brach_of_knowledge():
+    return render_template("course_module/branch_of_knowledge.html")
+    
 
 @course_api.route("/getMaterialBy", methods=['GET'])
 def get_MaterialsBy():
