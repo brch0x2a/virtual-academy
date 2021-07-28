@@ -61,13 +61,13 @@ def catalogoCursos():
     return render_template("course_module/category_course.html", course=Course)
 
 
-@course_api.route("/deleteMaterial")
-def deleteMaterial():
+@course_api.route("/deleteLesson")
+def deleteLesson():
 
     mid = str(request.args.get("id"))
-    course_module.deleteMaterialBy(mid)
+    course_module.deleteLessonBy(mid)
 
-    return redirect(f"/material")
+    return redirect(f"/lesson")
 
 
 @course_api.route("/deleteModule")
@@ -87,8 +87,8 @@ def deleteCourse():
     return redirect(f"/catalogoCursos")
 
 
-@course_api.route('/material', methods=['GET', 'POST'])
-def material():
+@course_api.route('/lesson', methods=['GET', 'POST'])
+def lesson():
     if request.method == 'POST':
 
         module = str(request.form['module'])
@@ -96,14 +96,14 @@ def material():
         video = str(request.form['video'])
 
         print("%s %s %s"%(module, title, video))
-        done = course_module.createMaterial(module, title, video)
+        done = course_module.createLesson(module, title, video)
         print(done)
 
-        return redirect(f"/material")
+        return redirect(f"/lesson")
 
-    Material = course_module.getAllMaterial()
+    Lesson = course_module.getAllLesson()
 
-    return render_template("course_module/material.html", material=Material)
+    return render_template("course_module/lesson.html", lesson=Lesson)
 
 @course_api.route('/modules', methods=['GET', 'POST'])
 def modules():
@@ -193,15 +193,15 @@ def brach_of_knowledge():
     return render_template("course_module/branch_of_knowledge.html")
     
 
-@course_api.route("/getMaterialBy", methods=['GET'])
-def get_MaterialsBy():
+@course_api.route("/getLessonBy", methods=['GET'])
+def get_LessonsBy():
 
     id = str(request.args.get("id"))
 
     print(id)
 
     # Colection = []
-    Colection = course_module.getMaterialBy(id)
+    Colection = course_module.getLessonBy(id)
 
     return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
 

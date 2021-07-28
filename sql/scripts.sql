@@ -69,7 +69,7 @@ create table Module(
     price float
 );
 
-CREATE TABLE Material (
+CREATE TABLE Lesson (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title varchar(60),
     id_module INT NOT NULL,
@@ -85,6 +85,13 @@ CREATE table Enrollment(
     id_course INT NOT NULL,
     FOREIGN KEY fk_id_course_fromCourse(id_course)
         REFERENCES Course (id)
-        ON DELETE RESTRICT ON UPDATE CASCADE
-)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    
+    id_user INT NOT NULL,
+    FOREIGN KEY fk_id_user_fromUser_table(id_user)
+        REFERENCES User_table (id)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+
+    enrollment_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 

@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from app.module.course.models import Category_course
 from app.module.course.models import Course
 from app.module.course.models import Module
-from app.module.course.models import Material
+from app.module.course.models import Lesson
 
 load_dotenv()
 
@@ -255,14 +255,14 @@ def createModule(course, title, price):
 
 
 
-def createMaterial(module, title, filepath):
+def createLesson(module, title, filepath):
     db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
 
     title = str(title)
 
     cursor = db.cursor()
 
-    sql = "INSERT INTO Material(id_module, title, filepath)"\
+    sql = "INSERT INTO Lesson(id_module, title, filepath)"\
         "Values(%s, %s, %s)"
 
     cursor.execute(sql, (module, title, filepath))
@@ -336,8 +336,8 @@ def getModuleE(id):
 
 
 
-def getAllMaterial():
-    Materials = []
+def getAllLesson():
+    Lessons = []
     db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
@@ -352,7 +352,7 @@ def getAllMaterial():
             M.title,
             M.filepath
         FROM
-            Material M
+            Lesson M
                 INNER JOIN
             Module Md ON Md.id = M.id_module
                 INNER JOIN
@@ -370,20 +370,20 @@ def getAllMaterial():
 
     for e in result:
 
-        Materials.append(Material(e[0], e[1], e[2], e[3], e[4], e[5], e[6]))
+        Lessons.append(Lesson(e[0], e[1], e[2], e[3], e[4], e[5], e[6]))
 
 
     db.close()
 
-    return Materials
+    return Lessons
 
 
 
 
 
 
-def getMaterialBy(moduleId):
-    Materials = []
+def getLessonBy(moduleId):
+    Lessons = []
     db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
     cursor = db.cursor()
 
@@ -397,7 +397,7 @@ def getMaterialBy(moduleId):
             M.title,
             M.filepath
         FROM
-            Material M
+            Lesson M
                 INNER JOIN
             Module Md ON Md.id = M.id_module
                 INNER JOIN
@@ -417,12 +417,12 @@ def getMaterialBy(moduleId):
 
     for e in result:
 
-        Materials.append(Material(e[0], e[1], e[2], e[3], e[4], e[5], e[6]))
+        Lessons.append(Lesson(e[0], e[1], e[2], e[3], e[4], e[5], e[6]))
 
 
     db.close()
 
-    return Materials
+    return Lessons
 
 
 
@@ -467,7 +467,7 @@ def updateCourseCatalog(category, title, description, uid, uimage):
 
 
 
-def deleteMaterialBy(id):
+def deleteLessonBy(id):
 
 
     db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
@@ -475,7 +475,7 @@ def deleteMaterialBy(id):
 
 
     sql = '''            
-            DELETE FROM Material 
+            DELETE FROM Lesson 
                 WHERE
                 id = %s;
           '''

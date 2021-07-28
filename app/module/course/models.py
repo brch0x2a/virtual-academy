@@ -22,7 +22,7 @@ class Module:
         self.price = price
 
 
-class Material:
+class Lesson:
     def __init__(self, id, category, course, description, module, title, filepath):
         self.id = id 
         self.category = category

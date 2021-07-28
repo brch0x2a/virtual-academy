@@ -14,7 +14,7 @@
 <hr>
 
 <center>
-    <h1>Material</h1>
+    <h1>Leccion</h1>
 </center>
 
 <table class="table table-striped">
@@ -38,7 +38,7 @@
     </tr>
   </thead>
   <tbody>
-    {%for m in material %}
+    {%for m in lesson %}
     <tr>
       <td>{{ m.id}}</td>
       <td>{{ m.category}}</td>
@@ -81,7 +81,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content" >
       <div class="modal-header">
-        <h5 class="modal-title" id="closeFormLabel">Agregar Material</h5>
+        <h5 class="modal-title" id="closeFormLabel">Agregar Leccion</h5>
         <button
           type="button"
           class="close"
@@ -94,7 +94,7 @@
       <div style="background-color: #198754;">
       <div class="card" style="width: 24rem;">
         <div class="card-body">
-              <form method="POST" class="" action="/material">
+              <form method="POST" class="" action="/lesson">
         
                 <div class="form-group">
                   <label for="" class="form-label">Categoria</label>
@@ -116,7 +116,7 @@
                 </div>
                 <br>
                 <div class="form-group">
-                  <label for="" class="form-label">Titulo del material</label>
+                  <label for="" class="form-label">Titulo de la leccion</label>
                   <input name="title" type="text" class="form-control" required>
                 </div>
 
@@ -316,7 +316,7 @@ initCategoryCollection('ucategory');
     function deleteE(id){
       console.log(id);
 
-      $.getJSON("/deleteMaterial?id="+id, data=>{
+      $.getJSON("/deleteLesson?id="+id, data=>{
         window.location.reload(true);
       });
 
