@@ -1,15 +1,200 @@
 {% include "partials/header.html" %}
-{% include "partials/sidenav.html" %}
 
-<div class="main">
 
-    <div class="card" style="width: 18rem; background-color: black;">
-        <rect width="100%" height="100%" fill="#868e96"></rect>
+
+{% include "partials/sidenav.html"%}
+
+<div class="main"> 
+{% include "partials/nav.html" %}
+
+
+<br>
+<hr>
+
+<center>
+    <h1>Rama de conocimiento</h1>
+</center>
+<br>
+
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Titulo</th>
+        <th>Imagen</th>
+        <th>
+          <a >
+            <button type="button"  data-toggle="modal" id="addButton" onclick="console.log('clickTest6')"
+            data-target="#closeForm" class="btn btn-success" style="margin-left: 1px">Agregar</button>
+        </a>
+        </th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {%for b in branch %}
+      <tr>
+        <td>{{ b.id}}</td>
+        <td>{{ b.name}}</td>
+        <td>
+          <img style="object-fit: scale-down;" src="{{ b.image}}" width="90" height="90">
+
+        </td>
+        <td>
+          <a   onclick="edit({{ c.id }})">  
+           <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#editForm">Editar</button>
+          </a>
+          <a onclick="deleteE({{ c.id }})">
+           <button  type="button" class="btn btn-danger">Borrar</button>
+         </a>
+         </td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="closeForm"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="closeFormLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h5 class="modal-title" id="closeFormLabel">Agregar Rama</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div style="background-color: #198754;">
+      <div class="card" style="width: 24rem;">
         <div class="card-body">
+    
+          <form method="POST" enctype=multipart/form-data class="" action="/catalogoCursos">
+              <div class="form-group">
+                <label for="" class="form-label">Titulo</label>
+                <input name="title" type="text" class="form-control">
+            </div>
+            <br>
+            <div class="form-group">
+              <label for="" class="form-label">Portada</label>
+              <input class="form-control" type="file" name="file">
+            </div>
+            <br>    
+
+            <br>
+           <button class="btn btn-success" type="submit">Agregar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="editForm"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="closeFormLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="closeFormLabel">Editar Rama</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div style="background-color: #0d6efd;">
+      <div class="card" style="width: 24rem;">
+        <div class="card-body">
+    
+          <form method="POST" enctype=multipart/form-data class="" action="/updateCourse">
+    
+            <input type="number" id="uid" name="uid" hidden>
+            <br>
+            <div class="form-group">
+              <label for="" class="form-label">Titulo del curso</label>
+              <input id="utitle" name="utitle" type="text" class="form-control">
+            </div>
+  
+
+            <div class="form-group">
+              <label for="" class="form-label">Portada</label>
+              <br>
+              <center>
+                <img style="object-fit: scale-down;" id="editCover" src="" width="150" height="150">
+              </center>
+              <input class="form-control" type="file" name="file">
+            </div>
+
+            <br>
+            <br>
+           <button class="btn btn-primary" type="submit">Editar</button>
+
+          </form>
+        </div>
       </div>
     </div>
 
+    </div>
+  </div>
 </div>
 
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
 
+<script>
+
+
+   function edit(id){
+      console.log("id: "+id);
+
+      initCategoryCollection("ucategory");
+
+
+      $.getJSON("/getCourseE?id="+id, data =>{
+        let obj = JSON.parse(data);
+        console.log(obj[0]);
+
+        $("input[name='utitle']").val(obj[0].title);
+        $("#udescription").val(obj[0].description);
+        $("input[name='uid']").val(obj[0].id);
+        $("#editCover").attr("src", obj[0].image);
+        
+      });
+    }
+
+
+  function deleteE(id){
+        console.log(id);
+
+        $.getJSON("/deleteCourse?id="+id, data=>{
+          window.location.reload(true);
+        });
+
+      }
+
+    initCategoryCollection("category");
+
+</script>
 {% include "partials/footer.html" %}

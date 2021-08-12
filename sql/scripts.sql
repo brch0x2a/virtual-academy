@@ -8,6 +8,15 @@ FLUSH PRIVILEGES;
 use academy;
 
 
+drop table User_table;
+drop table Lesson;
+DROP TABLE Material;
+drop table Module;
+drop table Course;
+drop table Category_course;
+drop table Branch_of_knowledge;
+drop table Enrollment;
+
 create table User_table(
     id int not null AUTO_INCREMENT PRIMARY KEY,
 
