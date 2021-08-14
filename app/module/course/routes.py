@@ -20,8 +20,6 @@ UPLOAD_FOLDER = os.environ.get("APP_UPLOAD_FOLDER")
 
 course_api = Blueprint('course_api', __name__)
 
-
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

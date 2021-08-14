@@ -7,12 +7,12 @@ from app.module.user.routes import user_api
 from app.module.auth.routes import auth_api
 from app.module.site.routes import site_api
 from app.module.course.routes import course_api
+from app.module.branch_of_kwnoledge.routes import branch_of_kwnoledge_api
 
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
 
 UPLOAD_FOLDER = os.environ.get("APP_UPLOAD_FOLDER")
 
@@ -26,6 +26,7 @@ app.secret_key = 'your secret key'
 app.register_blueprint(user_api)
 app.register_blueprint(auth_api)
 app.register_blueprint(site_api)
+app.register_blueprint(branch_of_kwnoledge_api)
 app.register_blueprint(course_api)
 
 

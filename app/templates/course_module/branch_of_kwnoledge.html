@@ -1,12 +1,9 @@
 {% include "partials/header.html" %}
 
-
-
 {% include "partials/sidenav.html"%}
 
 <div class="main"> 
 {% include "partials/nav.html" %}
-
 
 <br>
 <hr>
@@ -15,7 +12,6 @@
     <h1>Rama de conocimiento</h1>
 </center>
 <br>
-
 
 <table class="table table-striped">
     <thead>
@@ -42,10 +38,10 @@
 
         </td>
         <td>
-          <a   onclick="edit({{ c.id }})">  
+          <a   onclick="edit({{ b.id }})">  
            <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#editForm">Editar</button>
           </a>
-          <a onclick="deleteE({{ c.id }})">
+          <a onclick="deleteE({{ b.id }})">
            <button  type="button" class="btn btn-danger">Borrar</button>
          </a>
          </td>
@@ -81,7 +77,7 @@
       <div class="card" style="width: 24rem;">
         <div class="card-body">
     
-          <form method="POST" enctype=multipart/form-data class="" action="/catalogoCursos">
+          <form method="POST" enctype=multipart/form-data class="" action="/branch_of_kwnoledge">
               <div class="form-group">
                 <label for="" class="form-label">Titulo</label>
                 <input name="title" type="text" class="form-control">
@@ -129,9 +125,10 @@
       <div class="card" style="width: 24rem;">
         <div class="card-body">
     
-          <form method="POST" enctype=multipart/form-data class="" action="/updateCourse">
+          <form method="POST" enctype=multipart/form-data class="" action="/update_branch_of_kwnoledge">
     
             <input type="number" id="uid" name="uid" hidden>
+
             <br>
             <div class="form-group">
               <label for="" class="form-label">Titulo del curso</label>
@@ -169,15 +166,11 @@
    function edit(id){
       console.log("id: "+id);
 
-      initCategoryCollection("ucategory");
-
-
-      $.getJSON("/getCourseE?id="+id, data =>{
+      $.getJSON("/branch_of_kwnoledgeE?id="+id, data =>{
         let obj = JSON.parse(data);
         console.log(obj[0]);
 
-        $("input[name='utitle']").val(obj[0].title);
-        $("#udescription").val(obj[0].description);
+        $("input[name='utitle']").val(obj[0].name);
         $("input[name='uid']").val(obj[0].id);
         $("#editCover").attr("src", obj[0].image);
         
@@ -188,13 +181,11 @@
   function deleteE(id){
         console.log(id);
 
-        $.getJSON("/deleteCourse?id="+id, data=>{
+        $.getJSON("/delete_branch_of_kwnoledge?id="+id, data=>{
           window.location.reload(true);
         });
 
       }
-
-    initCategoryCollection("category");
 
 </script>
 {% include "partials/footer.html" %}
