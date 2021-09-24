@@ -4,6 +4,7 @@ import pymysql
 import os
 from app.module.user.models import User_table
 from dotenv import load_dotenv
+from app.module.common.dbConsumer.dbConsumer import runGetScript
 
 load_dotenv()
 
@@ -67,9 +68,9 @@ FROM
 
 
 def authUser(username, password):
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
+    # db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
 
-    cursor = db.cursor()
+    # cursor = db.cursor()
 
 
     sql = '''
@@ -82,12 +83,14 @@ def authUser(username, password):
             AND password = %s;
           '''
 
-    cursor.execute(sql, (username, password))
+    result = runGetScript(sql, (username, password))
+    result = result[0]
+    # cursor.execute(sql, (username, password))
 
-    cursor.close()
+    # cursor.close()
 
-    result = cursor.fetchone()
+    # result = cursor.fetchone()
 
-    db.close()
+    # db.close()
 
     return result

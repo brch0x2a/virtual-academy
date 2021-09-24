@@ -32,6 +32,24 @@ def branch_of_kwnoledge_all():
     return jsonify( json.dumps([ obj.__dict__ for obj in Branch] )), 200
 
 
+@branch_of_kwnoledge_api.route("/branch_of_kwnoledge_all_all", methods=['GET'])
+def branch_of_kwnoledge_all_all():
+
+    Branch = branch_of_kwnoledge_module.get_all_all()
+    
+    toView = jsonify( Branch )
+    
+    print("#####################################################")
+    
+    print("JSONIFY ON DICT: ", toView)
+    
+    print("\n\n\n\nBranch: ", Branch)
+    
+    print("#####################################################")
+
+    return toView, 200
+
+
 
 @branch_of_kwnoledge_api.route("/branch_of_kwnoledge", methods=['GET', 'POST'])
 def branch_of_kwnoledge_catalog():
