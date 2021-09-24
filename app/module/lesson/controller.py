@@ -2,7 +2,7 @@ import pymysql
 import os
 from dotenv import load_dotenv
 
-from app.module.course.models import Lesson
+from app.module.lesson.models import Lesson
 
 load_dotenv()
 
@@ -12,17 +12,19 @@ MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
 MYSQL_DB = os.environ.get("MYSQL_DB")
 
 
-def createLesson(module, title, filepath):
+def createLesson(module, title, filepath, reading):
     db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
 
     title = str(title)
 
     cursor = db.cursor()
 
-    sql = "INSERT INTO Lesson(id_module, title, filepath)"\
-        "Values(%s, %s, %s)"
+    print("\033[092m INSERT \033[0m")
 
-    cursor.execute(sql, (module, title, filepath))
+    sql = "INSERT INTO Lesson(id_module, title, filepath, reading_path)"\
+        "Values(%s, %s, %s, %s)"
+
+    cursor.execute(sql, (module, title, filepath, reading))
 
     db.commit()
 
@@ -47,7 +49,8 @@ def getAllLesson():
             Cs.description,
             Md.title,
             M.title,
-            M.filepath
+            M.filepath,
+            M.reading_path
         FROM
             Lesson M
                 INNER JOIN
@@ -67,8 +70,7 @@ def getAllLesson():
 
     for e in result:
 
-        Lessons.append(Lesson(e[0], e[1], e[2], e[3], e[4], e[5], e[6]))
-
+        Lessons.append(Lesson(e[0], e[1], e[2], e[3], e[4], e[5], e[6], e[7]))
 
     db.close()
 
@@ -90,7 +92,8 @@ def getLessonBy(moduleId):
             Cs.description,
             Md.title,
             M.title,
-            M.filepath
+            M.filepath,
+            M.reading_path
         FROM
             Lesson M
                 INNER JOIN
@@ -112,7 +115,7 @@ def getLessonBy(moduleId):
 
     for e in result:
 
-        Lessons.append(Lesson(e[0], e[1], e[2], e[3], e[4], e[5], e[6]))
+        Lessons.append(Lesson(e[0], e[1], e[2], e[3], e[4], e[5], e[6], e[7]))
 
 
     db.close()

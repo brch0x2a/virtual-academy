@@ -2,7 +2,7 @@ import pymysql
 import os
 from dotenv import load_dotenv
 
-from app.module.course.models import Module
+from app.module.module.models import Module
 
 
 load_dotenv()

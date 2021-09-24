@@ -25,7 +25,7 @@ create table User_table(
     phone int,
     email varchar(120),
     identification_id varchar(50),
-    password(256),
+    password varchar(256),
     card_number varchar(100)
 );
 
@@ -54,7 +54,6 @@ create table Course(
 	REFERENCES Category_course(id)
 	on DELETE RESTRICT
 	on UPDATE CASCADE,
-
     
 	title varchar(60),
 
@@ -85,7 +84,8 @@ CREATE TABLE Lesson (
     FOREIGN KEY fk_id_module_fromCourse(id_module)
         REFERENCES Module (id)
         ON DELETE RESTRICT ON UPDATE CASCADE,
-    filepath VARCHAR(250)
+    filepath VARCHAR(250),
+    reading_path VARCHAR(250)
 );
 
 CREATE table Enrollment(

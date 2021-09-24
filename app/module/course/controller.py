@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 
 from app.module.course.models import Course
-
+from app.module.category_course import controller as category_course_module
 
 load_dotenv()
 
@@ -115,6 +115,42 @@ def getCourseBy(categoryId):
           '''
 
     cursor.execute(sql, (categoryId))
+
+    cursor.close()
+
+    result = cursor.fetchall()
+    # print(len(result))
+
+    for e in result:
+
+        Courses.append(Course(e[0], e[1], e[2], e[3], e[4]))
+
+
+    db.close()
+
+    return Courses
+
+
+def getCourseByBranch(branch_id):
+    Courses = []
+    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
+    cursor = db.cursor()
+
+
+    sql = '''
+    SELECT 
+        Cs.id, Cc.name, Cs.title, Cs.description, Cs.image
+    FROM
+        Course Cs
+            INNER JOIN
+        Category_course Cc ON Cc.id = Cs.id_category
+            inner join
+        Branch_of_knowledge B ON B.id = Cc.id_branch 
+    WHERE
+        B.id = %s
+          '''
+
+    cursor.execute(sql, (branch_id))
 
     cursor.close()
 
@@ -252,7 +288,5 @@ def deleteCourseBy(id):
     db.close()
 
     return "Done"
-
-
 
 

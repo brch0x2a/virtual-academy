@@ -13,20 +13,22 @@
 
 <br>
 <hr>
+<h2> Seleccione una rama de conocimiento: </h2>
+<br>
     <div class="row">
     
-      {% for c in course%}
+      {% for b in branch%}
       <div class="col"> 
+        <a href="enrollment_grid?id_branch={{ b.id}}">
         <div class="card" style="width: 18rem;">
-          <img  width="200" height="200" style="object-fit: scale-down;" class="card-img-top" src="{{ c.image}}" alt="Card image cap"> 
+          <img  width="200" height="200" style="object-fit: scale-down;" class="card-img-top" src="{{ b.image}}" alt="Card image cap"> 
           <div class="card-body">
-            <h5 class="card-title">{{c.title}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{c.category}}</h6>
-            <p class="card-text">{{ c.description}}</p>
+            <h5 class="card-title">{{b.name}}</h5>
+
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
-
+      </a>
       </div>
       {%endfor%}
   

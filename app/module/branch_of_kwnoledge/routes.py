@@ -12,7 +12,7 @@ from app.module.branch_of_kwnoledge import controller as branch_of_kwnoledge_mod
 
 load_dotenv()
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'svg'}
 
 UPLOAD_FOLDER = os.environ.get("APP_UPLOAD_FOLDER")
 
@@ -21,6 +21,16 @@ branch_of_kwnoledge_api = Blueprint('branch_of_kwnoledge_api', __name__)
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+
+@branch_of_kwnoledge_api.route("/branch_of_kwnoledge_all", methods=['GET'])
+def branch_of_kwnoledge_all():
+
+    Branch = branch_of_kwnoledge_module.get_all()
+
+    return jsonify( json.dumps([ obj.__dict__ for obj in Branch] )), 200
+
 
 
 @branch_of_kwnoledge_api.route("/branch_of_kwnoledge", methods=['GET', 'POST'])

@@ -1,0 +1,222 @@
+{% include "partials/header.html" %}
+
+{% include "partials/sidenav.html"%}
+
+<div class="main"> 
+{% include "partials/nav.html" %}
+
+<br>
+<hr>
+
+<center>
+    <h1>Clasificacion por Rama</h1>
+</center>
+<br>
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Titulo</th>
+        <th>ID_Branch</th>
+        <th>
+          <a >
+            <button type="button"  data-toggle="modal" id="addButton" onclick="console.log('clickTest6')"
+            data-target="#closeForm" class="btn btn-success" style="margin-left: 1px">Agregar</button>
+        </a>
+        </th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {%for b in branch %}
+      <tr>
+        <td>{{ b.id}}</td>
+        <td>{{ b.name}}</td>
+        <td>
+            {{ b.id_branch}}
+        </td>
+        <td>
+          <a   onclick="edit({{ b.id }})">  
+           <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#editForm">Editar</button>
+          </a>
+          <a onclick="deleteE({{ b.id }})">
+           <button  type="button" class="btn btn-danger">Borrar</button>
+         </a>
+         </td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="closeForm"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="closeFormLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <h5 class="modal-title" id="closeFormLabel">Agregar Clasificacion</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div style="background-color: #198754;">
+      <div class="card" style="width: 24rem;">
+        <div class="card-body">
+    
+          <form method="POST" enctype=multipart/form-data class="" action="/category_course_collection">
+             
+
+            <div class="form-group">
+            <label for="" class="form-label">Rama</label>
+              <select name="branch" id="branch" class="form-select">
+                <option >--Seleccion una opcion</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="" class="form-label">Titulo</label>
+                <input name="title" type="text" class="form-control">
+            </div>
+            <br>
+
+            <br>    
+
+            <br>
+           <button class="btn btn-success" type="submit">Agregar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="editForm"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="closeFormLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="closeFormLabel">Editar Categoria</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div style="background-color: #0d6efd;">
+      <div class="card" style="width: 24rem;">
+        <div class="card-body">
+    
+          <form method="POST" enctype=multipart/form-data class="" action="/update_category_course">
+    
+            <input type="number" id="uid" name="uid" hidden>
+            <div class="form-group">
+                <label for="" class="form-label">Rama</label>
+                  <select name="ubranch" id="ubranch" class="form-select">
+                    <option >--Seleccion una opcion</option>
+                  </select>
+                </div>
+            <br>
+            <div class="form-group">
+              <label for="" class="form-label">Titulo del curso</label>
+              <input id="utitle" name="utitle" type="text" class="form-control">
+            </div>
+
+            <br>
+            <br>
+           <button class="btn btn-primary" type="submit">Editar</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+
+<script>
+
+
+    function initCategoryCollection(selectId){
+
+        let url = "http://localhost:3001/branch_of_kwnoledge_all"
+
+        // Replace ./data.json with your JSON feed
+        fetch(url)
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+            // Work with JSON data here
+
+            let obj = JSON.parse(data);
+
+            let  select = document.getElementById(selectId);
+
+            select.options.length = 0;
+
+            obj.forEach(element => {
+            select.options[select.options.length] = new Option(element.name, element.id);
+            }); 
+
+        })
+        .catch((err) => {
+            // Do something for an error here
+            console.log(err);
+        })
+    }
+
+   function edit(id){
+      console.log("id: "+id);
+
+      $.getJSON("/getCourseE?id="+id, data =>{
+        let obj = JSON.parse(data);
+        console.log(obj[0]);
+
+        $("input[name='utitle']").val(obj[0].name);
+        $("input[name='uid']").val(obj[0].id);
+        
+      });
+    }
+
+
+  function deleteE(id){
+        console.log(id);
+
+        $.getJSON("/delete_category_course?id="+id, data=>{
+          window.location.reload(true);
+        });
+
+      }
+
+initCategoryCollection("branch");
+initCategoryCollection("ubranch");
+
+</script>
+{% include "partials/footer.html" %}

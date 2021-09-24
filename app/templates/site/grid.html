@@ -1,0 +1,84 @@
+{% include "partials/header.html" %}
+
+{% include "partials/sidenav.html"%}
+
+<div class="main"> 
+  {% include "partials/nav.html" %}
+    <br>
+    <div  style="display: flex; justify-content: center; align-items: center;">
+
+        <!-- <h1> Bienvenido {{ username }}</h1> -->
+
+    </div>
+
+<br>
+<hr>
+<div class="row">
+  <div class="col">
+    <h2> Cursos de {{ branch.name}}</h2>
+  </div>
+  <div class="col">
+    <img  width="200" height="200" style="object-fit: scale-down;" class="card-img-top" src="{{ branch.image}}" alt="Card image cap"> 
+
+  </div>
+</div>
+
+<hr>
+
+<br>
+
+      {% for g in grid %}
+      
+
+      {% if g %}
+        <h2>{{ g[0].category}}</h2>
+        <div class="row">
+          
+            {% for e in g %}
+            <div class="col"> 
+              <a href="#">
+              <div class="card" style="width: 18rem;">
+                <img  width="200" height="200" style="object-fit: scale-down;" class="card-img-top" src="{{ e.image}}" alt="Card image cap"> 
+                <div class="card-body">
+                  <h5 class="card-title">{{e.title}}</h5>
+                  </div>
+              </div>
+            </a>
+            </div>
+    
+            {%endfor%}
+            <div class="row">
+              <div class="col">
+                <ul class="list-group">
+                  <li class="list-group-item">Cras justo odio</li>
+                  <li class="list-group-item">Dapibus ac facilisis in</li>
+                  <li class="list-group-item">Morbi leo risus</li>
+                  <li class="list-group-item">Porta ac consectetur ac</li>
+                  <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+
+              </div>
+              <div class="col">
+                <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <button class="btn btn-success" type="submit">Inscribirme</button>
+                    <button class="btn btn-info" type="submit">Visitar</button>
+
+                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+      </div>
+      {% endif%}
+     <br>
+      {%endfor%}
+</div>
+
+<script src="{{url_for('static', filename='js/sidenav.js')}}"></script>
+
+
+{% include "partials/footer.html" %}

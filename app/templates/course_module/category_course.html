@@ -197,7 +197,7 @@
 
 function initCategoryCollection(selectId){
 
-    let url = "http://localhost:3000/category_course"
+    let url = "http://localhost:3001/category_course"
 
     // Replace ./data.json with your JSON feed
     fetch(url)
@@ -225,7 +225,7 @@ function initCategoryCollection(selectId){
     }
 
 
-    function edit(id){
+     function edit(id){
       console.log("id: "+id);
 
       initCategoryCollection("ucategory");
