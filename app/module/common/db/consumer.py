@@ -43,16 +43,33 @@ def runGetScript(myScript,scriptParams=None):
     return result
 
 def runUpdateScript(myScript,scriptParams=None):
-    #an script that updates bd state
-    db = getBD()
-    cursor = db.cursor()
-    cursor.execute(myScript,args=scriptParams)
-    db.commit()
-    
-    cursor.close()
-    db.close() 
-    # ver si result es muy complicado
-    return result
+    try:
+        #an script that updates bd state
+        db = getBD()
+        cursor = db.cursor()
+        cursor.execute(myScript,args=scriptParams)
+        db.commit()
+        
+        cursor.close()
+        db.close() 
+        # ver si result es muy complicado
+        return {
+            "error":None,
+            "data":
+                {
+                "title" : "Success",
+                "message" : " TOO LISTO PA' "
+                }
+            }
+    except:
+        return {
+            "error":True,
+            "data":
+                {
+                "title" : "Error",
+                "message" : "An exception occurred",
+                 }
+            }
 
     
 

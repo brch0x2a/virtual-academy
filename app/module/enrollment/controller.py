@@ -1,7 +1,4 @@
-import pymysql
-import os
-from dotenv import load_dotenv
-
+from app.module.common.db.consumer import runGetScript
 
 from app.module.course import controller as course_module
 
@@ -11,17 +8,8 @@ from app.module.enrollment.models import Enrollment
 from app.module.enrollment.models import Holder
 from app.module.enrollment.models import Grid
 
-load_dotenv()
-
-MYSQL_HOST = os.environ.get("MYSQL_HOST")
-MYSQL_USER = os.environ.get("MYSQL_USER")
-MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
-MYSQL_DB = os.environ.get("MYSQL_DB")
 
 def get_all():
-    Catalog = []
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-    cursor = db.cursor()
 
     sql = '''
         SELECT 
@@ -40,19 +28,9 @@ def get_all():
             User_table U ON U.id = E.id_user
           '''
 
-    cursor.execute(sql)
+    result = runGetScript(sql)
 
-    cursor.close()
-
-    result = cursor.fetchall()
-
-    for e in result:
-
-        Catalog.append( Enrollment(e[0], e[1], e[2], e[3], e[4], e[5], e[6]))
-
-    db.close() 
-
-    return Catalog
+    return result
 
 
 def grid(id_branch):

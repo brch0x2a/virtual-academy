@@ -33,7 +33,8 @@ def enrollment_all():
 
     Colection = enrollment_module.get_all()
 
-    return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    # return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    return jsonify( Colection), 200
 
 
 
@@ -69,9 +70,10 @@ def get_grid():
 
     Colection = enrollment_module.grid(id_branch)
 
-    transform = [[ row.__dict__ for row in obj.course_colection ] for obj in Colection.colection ] 
+    # transform = [[ row.__dict__ for row in obj.course_colection ] for obj in Colection.colection ] 
 
     print("\033[32;1m %s\t%s  \033[0m\n\n"%(type(transform), transform))
 
-    return jsonify(json.dumps(transform))
+    # return jsonify(json.dumps(transform))
+    return jsonify(Colection)
     # return render_template("site/grid.html")

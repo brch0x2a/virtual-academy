@@ -1,24 +1,13 @@
 
 # COURSE
 
-import pymysql
-import os
-from dotenv import load_dotenv
+from app.module.common.db.consumer import runGetScript, runUpdateScript
 
 from app.module.course.models import Course
 from app.module.category_course import controller as category_course_module
 
-load_dotenv()
-
-MYSQL_HOST = os.environ.get("MYSQL_HOST")
-MYSQL_USER = os.environ.get("MYSQL_USER")
-MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
-MYSQL_DB = os.environ.get("MYSQL_DB")
 
 def getCategory_course():
-    Catalog = []
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-    cursor = db.cursor()
 
     sql = '''
     SELECT 
@@ -27,49 +16,23 @@ def getCategory_course():
         academy.Category_course;
           '''
 
-    cursor.execute(sql)
+    result = runGetScript(sql)
 
-    cursor.close()
-
-    result = cursor.fetchall()
-
-    for e in result:
-
-        Catalog.append(Category_course(e[0], e[1]))
-
-    db.close() 
-
-    return Catalog
+    return result
 
 
 def createCourse(title, category, description, image):
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-
     title = str(title)
-
-    cursor = db.cursor()
 
     sql = "INSERT INTO Course(id_category, title, description, image)"\
         "Values(%s, %s, %s, %s)"
 
-    cursor.execute(sql, (category, title, description, image))
+    result = runUpdateScript( sql, (category, title, description, image) )
 
-    db.commit()
-
-    cursor.close()
-
-    db.close()
-
-
-    return "Listo"
+    return result
 
 
 def getAllCourses():
-    Courses = []
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-    cursor = db.cursor()
-
-
     sql = '''
     SELECT 
         Cs.id, Cc.name, Cs.title, Cs.description, Cs.image
@@ -79,29 +42,13 @@ def getAllCourses():
         Category_course Cc ON Cc.id = Cs.id_category
           '''
 
-    cursor.execute(sql)
+    result = runGetScript(sql)
 
-    cursor.close()
-
-    result = cursor.fetchall()
-    print(len(result))
-
-    for e in result:
-
-        Courses.append(Course(e[0], e[1], e[2], e[3], e[4]))
-
-
-    db.close()
-
-    return Courses
+    return result
 
 
 
 def getCourseBy(categoryId):
-    Courses = []
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-    cursor = db.cursor()
-
 
     sql = '''
     SELECT 
@@ -114,28 +61,12 @@ def getCourseBy(categoryId):
         Cc.id = %s
           '''
 
-    cursor.execute(sql, (categoryId))
+    result = runGetScript(sql, (categoryId))
 
-    cursor.close()
-
-    result = cursor.fetchall()
-    # print(len(result))
-
-    for e in result:
-
-        Courses.append(Course(e[0], e[1], e[2], e[3], e[4]))
-
-
-    db.close()
-
-    return Courses
+    return result
 
 
 def getCourseByBranch(branch_id):
-    Courses = []
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-    cursor = db.cursor()
-
 
     sql = '''
     SELECT 
@@ -150,30 +81,13 @@ def getCourseByBranch(branch_id):
         B.id = %s
           '''
 
-    cursor.execute(sql, (branch_id))
+    result = runGetScript(sql, (branch_id))
 
-    cursor.close()
-
-    result = cursor.fetchall()
-    print(len(result))
-
-    for e in result:
-
-        Courses.append(Course(e[0], e[1], e[2], e[3], e[4]))
-
-
-    db.close()
-
-    return Courses
+    return result
 
 
 
 def getCourseE(id):
-    Courses = []
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-    cursor = db.cursor()
-
-
     sql = '''
     SELECT 
         Cs.id, Cc.name, Cs.title, Cs.description, Cs.image
@@ -185,25 +99,11 @@ def getCourseE(id):
         Cs.id = %s
           '''
 
-    cursor.execute(sql, (id))
+    result = runGetScript( sql, (id) )
 
-    cursor.close()
-
-    result = cursor.fetchall()
-    print(len(result))
-
-    for e in result:
-
-        Courses.append(Course(e[0], e[1], e[2], e[3], e[4]))
-
-
-    db.close()
-
-    return Courses
+    return result
 
 def updateCourseCatalog(category, title, description, uid, uimage):
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-
     title = str(title)
     category = str(category)
     description = str(description)
@@ -212,8 +112,6 @@ def updateCourseCatalog(category, title, description, uid, uimage):
 
     print(image)
     # print("id:%s\t t: %s c: %s d:%s\timage:%s"%(uid, title, category, description, image))
-
-    cursor = db.cursor()
 
     sql = ''' 
             UPDATE Course 
@@ -226,22 +124,12 @@ def updateCourseCatalog(category, title, description, uid, uimage):
                 id = %s
     '''
 
-    cursor.execute(sql, (category, title, description, image, uid))
+    result = runUpdateScript( sql, (category, title, description, image, uid) )
 
-    db.commit()
-
-    cursor.close()
-
-    db.close()
-
-    return "Listo"
+    return result
 
 
 def deleteModuleBy(id):
-
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-    cursor = db.cursor()
-
     print("delete id: %s", id)
 
     sql = '''            
@@ -251,23 +139,12 @@ def deleteModuleBy(id):
             id = %s;
           '''
 
-    cursor.execute(sql, (id))
+    result = runUpdateScript( sql, (id) )
 
-    cursor.close()
-
-    result = cursor.fetchall()
-    print(len(result))
-
-    db.commit()
-    db.close()
-
-    return "Done"
+    return result
 
 
 def deleteCourseBy(id):
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-    cursor = db.cursor()
-
     print("delete id: %s", id)
 
     sql = '''            
@@ -277,16 +154,8 @@ def deleteCourseBy(id):
             id = %s;
           '''
 
-    cursor.execute(sql, (id))
+    result = runUpdateScript( sql, (id) )
 
-    cursor.close()
-
-    result = cursor.fetchall()
-    print(len(result))
-
-    db.commit()
-    db.close()
-
-    return "Done"
+    return result
 
 

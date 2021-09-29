@@ -29,7 +29,7 @@ def branch_of_kwnoledge_all():
 
     Branch = branch_of_kwnoledge_module.get_all()
 
-    return jsonify( json.dumps([ obj.__dict__ for obj in Branch] )), 200
+    return jsonify( Branch ), 200
 
 
 @branch_of_kwnoledge_api.route("/branch_of_kwnoledge_all_all", methods=['GET'])
@@ -39,13 +39,13 @@ def branch_of_kwnoledge_all_all():
     
     toView = jsonify( Branch )
     
-    print("#####################################################")
+    # print("#####################################################")
     
-    print("JSONIFY ON DICT: ", toView)
+    # print("JSONIFY ON DICT: ", toView)
     
-    print("\n\n\n\nBranch: ", Branch)
+    # print("\n\n\n\nBranch: ", Branch)
     
-    print("#####################################################")
+    # print("#####################################################")
 
     return toView, 200
 
@@ -101,7 +101,7 @@ def get_branch_of_kwnoledgeE():
     # Colection = []
     Colection = branch_of_kwnoledge_module.getE(id)
 
-    return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    return jsonify( Colection ), 200
 
 
 @branch_of_kwnoledge_api.route("/update_branch_of_kwnoledge", methods=['POST'])
