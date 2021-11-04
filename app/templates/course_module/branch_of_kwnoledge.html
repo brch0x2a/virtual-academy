@@ -85,7 +85,7 @@
             <br>
             <div class="form-group">
               <label for="" class="form-label">Portada</label>
-              <input class="form-control" type="file" name="file">
+              <input class="form-control" id="uimage" type="file" name="file" required>
             </div>
             <br>    
 
@@ -160,32 +160,6 @@
 
 <script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
 
-<script>
+<script src="{{ url_for('static', filename='js/branch_of_kwnoledge_calls.js') }}"></script>
 
-
-   function edit(id){
-      console.log("id: "+id);
-
-      $.getJSON("/branch_of_kwnoledgeE?id="+id, data =>{
-        let obj = JSON.parse(data);
-        console.log(obj[0]);
-
-        $("input[name='utitle']").val(obj[0].name);
-        $("input[name='uid']").val(obj[0].id);
-        $("#editCover").attr("src", obj[0].image);
-        
-      });
-    }
-
-
-  function deleteE(id){
-        console.log(id);
-
-        $.getJSON("/delete_branch_of_kwnoledge?id="+id, data=>{
-          window.location.reload(true);
-        });
-
-      }
-
-</script>
 {% include "partials/footer.html" %}

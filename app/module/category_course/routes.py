@@ -48,7 +48,7 @@ def category_course():
 
 
 
-@category_course_api.route("/getCourseE", methods=['GET'])
+@category_course_api.route("/getCategoryCourseE", methods=['GET'])
 def category_courseE():
 
     id = str(request.args.get("id"))
@@ -57,6 +57,8 @@ def category_courseE():
 
     # Colection = []
     Colection = category_course_module.getE(id)
+    
+    print("Colection-->>", Colection)
 
     return jsonify( Colection ), 200
 

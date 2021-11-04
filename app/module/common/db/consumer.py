@@ -39,7 +39,7 @@ def runGetScript(myScript,scriptParams=None):
     cursor.close()
     db.close() 
     # ver si result es muy complicado
-    print("RESULT: \n", result)
+    # print("RESULT: \n", result)
     return result
 
 def runUpdateScript(myScript,scriptParams=None):

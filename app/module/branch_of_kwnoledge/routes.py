@@ -76,7 +76,7 @@ def get_branch_of_kwnoledgeE():
 
     id = str(request.args.get("id"))
 
-    print(id)
+    # print("ID ON EDIT BE",id)
 
     # Colection = []
     Colection = branch_of_kwnoledge_module.getE(id)
@@ -92,22 +92,25 @@ def update_branch_of_kwnoledge():
         name = str(request.form['utitle'])
         uid = str(request.form['uid'])
 
-
         print(name+" ==> "+uid)
 
         if 'file' not in request.files:
-                    flash('No file part')
-                    return redirect(request.url)
+            flash('No file part')
+            return redirect(request.url)
 
         file = request.files['file']
+        # print("Input value : ", file)
 
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(UPLOAD_FOLDER, filename))
+        # if file.filename == '':
+        #     flash('No selected file')
+        #     return redirect(request.url)
+        
+        if file:
+            if allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(UPLOAD_FOLDER, filename))
+                filename = "public/uploads/"+filename
 
-        branch_of_kwnoledge_module.update(uid, name, "public/uploads/"+filename)
+        branch_of_kwnoledge_module.update(uid, name, (filename if file else ''))
 
         return redirect(f"/branch_of_kwnoledge")
