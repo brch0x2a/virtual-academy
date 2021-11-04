@@ -38,6 +38,19 @@ def category_courseBy():
     # return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
     return jsonify(Colection), 200
 
+@course_api.route("/getCourseById", methods=['GET'])
+def courseById():
+
+    courseId = str(request.args.get("courseId"))
+
+    print(courseId)
+
+    # Colection = []
+    Colection = course_module.getCourseById(courseId)
+
+    # return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    return jsonify(Colection), 200
+
 
 
 @course_api.route("/getCourseByBranch", methods=['GET'])

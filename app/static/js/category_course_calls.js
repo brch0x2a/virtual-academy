@@ -24,7 +24,7 @@
 
     initCategoryCollection("ucategory");
 
-    $.getJSON("/getCourseBy?id="+id, data =>{
+    $.getJSON("/getCourseById?courseId="+id, data =>{
       // let obj = JSON.parse(data);
       let obj = data;
       console.log("\n\n\n\nOBJ",obj[0]);
