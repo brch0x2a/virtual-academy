@@ -46,4 +46,4 @@
 
       }
 
-  initCategoryCollection("category");
+  initCategoryCollection("category"); 

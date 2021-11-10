@@ -39,8 +39,7 @@
       {%for c in course %}
       <tr>
         <td>{{ c.id}}</td>
-        <td>{{ c.category}}</td>
-        <!-- {{c}} -->
+        <td>{{ c.name}}</td>
         <td>
           <img style="object-fit: scale-down;" src="{{ c.image}}" width="90" height="90">
 
@@ -89,7 +88,7 @@
       <div class="card" style="width: 24rem;">
         <div class="card-body">
     
-          <form method="POST" enctype=multipart/form-data class="" action="/catalogoCursos">
+          <form method="POST" enctype="multipart/form-data" class="" action="/catalogoCursos">
     
             <div class="form-group">
               <label for="" class="form-label">Categoria</label>

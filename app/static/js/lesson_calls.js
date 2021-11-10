@@ -114,8 +114,8 @@ function initCategoryCollection(selectId){
     console.log("id: "+selectId);
 
     $.getJSON("/category_course", data =>{
-      let obj = JSON.parse(data);
-
+      // let obj = JSON.parse(data);
+      let obj = data;
 
       let  select = document.getElementById(selectId);
       select.options.length = 0;
@@ -134,7 +134,8 @@ function triggerNext(selectIdA, selectIdB){
 
       // Work with JSON data here
 
-      let obj = JSON.parse(data);
+      // let obj = JSON.parse(data);
+      let obj = data;
 
       let  select = document.getElementById(selectIdB);
       select.options.length = 0;
@@ -145,6 +146,27 @@ function triggerNext(selectIdA, selectIdB){
       });
       
     });
+}
+
+function triggerNextNext(selectIdA, selectIdB){
+  let option  = document.getElementById(selectIdA).value;
+
+  $.getJSON("/getModuleBy?"+"id="+option, data =>{
+
+    // Work with JSON data here
+
+    // let obj = JSON.parse(data);
+    let obj = data;
+
+    let  select = document.getElementById(selectIdB);
+    select.options.length = 0;
+
+    obj.forEach(element => {
+      select.options[select.options.length] = new Option(element.title, element.id);
+
+    });
+    
+  });
 }
 
 // function triggerNextNext(selectIdA, selectIdB){
@@ -185,7 +207,8 @@ function edit(id){
 
 
       $.getJSON("/getModuleE?id="+id, data =>{
-        let obj = JSON.parse(data);
+        // let obj = JSON.parse(data);
+        let obj = data;
         console.log(obj[0]);
 
         $("input[name='utitle']").val(obj[0].title);

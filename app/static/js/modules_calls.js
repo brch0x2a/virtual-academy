@@ -2,8 +2,9 @@ function initCategoryCollection(selectId){
     console.log("id: "+selectId);
 
     $.getJSON("/category_course", data =>{
-      let obj = JSON.parse(data);
-
+      // let obj = JSON.parse(data);
+      let obj = data;
+      console.log("SELCT ID: ", selectId, "obj: ", obj);
 
       let  select = document.getElementById(selectId);
       select.options.length = 0;
@@ -18,7 +19,8 @@ function initCategoryCollection(selectId){
   function triggerCourse(selectIdA, selectIdB){
     let option  = document.getElementById(selectIdA).value;
     $.getJSON("getCourseBy?"+"categoryId="+option, data =>{
-        let obj = JSON.parse(data);
+        // let obj = JSON.parse(data);
+        let obj = data;
   
         let  select = document.getElementById(selectIdB);
         select.options.length = 0;
@@ -39,7 +41,8 @@ function initCategoryCollection(selectId){
   
   
         $.getJSON("/getModuleE?id="+id, data =>{
-          let obj = JSON.parse(data);
+          // let obj = JSON.parse(data);
+          let obj = data;
           console.log(obj[0]);
   
           $("input[name='utitle']").val(obj[0].title);
