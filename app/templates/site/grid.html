@@ -36,7 +36,7 @@
           
             {% for e in g %}
             <div class="col"> 
-              <a href="#">
+              <a href="#" onclick="detail({{ e.id }})">
               <div class="card" style="width: 18rem;">
                 <img  width="200" height="200" style="object-fit: scale-down;" class="card-img-top" src="{{ e.image}}" alt="Card image cap"> 
                 <div class="card-body">
@@ -47,14 +47,12 @@
             </div>
     
             {%endfor%}
+
             <div class="row">
               <div class="col">
-                <ul class="list-group">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Morbi leo risus</li>
-                  <li class="list-group-item">Porta ac consectetur ac</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
+                <ul id="course_detail" class="list-group">
+                  <li class="list-group-item">Item</li>
+
                 </ul>
 
               </div>
@@ -79,6 +77,28 @@
 </div>
 
 <script src="{{url_for('static', filename='js/sidenav.js')}}"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+
+
+<script>
+
+function detail(id){
+   console.log("Id -->"+id);
+
+   $.getJSON("/getModuleBy?id="+id, data=>{
+          
+          $.forEach(elemnt=>{
+            console.log(elemnt);
+          });
+
+        });
+
+        // $("course_detail").append(' <li class="list-group-item">"$(value.title)</li>"');
+// 
+
+}
+  
+</script>
 
 
 {% include "partials/footer.html" %}

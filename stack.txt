@@ -18,4 +18,6 @@ FLUSH PRIVILEGES;
 
 create academy;
 
+docker start IDENTIFIED
+
  
