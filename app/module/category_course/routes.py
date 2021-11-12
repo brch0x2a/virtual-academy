@@ -43,7 +43,8 @@ def category_course():
 
     Catalog = category_course_module.get_all()
 
-    return jsonify( json.dumps([ obj.__dict__ for obj in Catalog] )), 200
+    # return jsonify( json.dumps([ obj.__dict__ for obj in Catalog] )), 200
+    return jsonify( Catalog ), 200
 
 
 
@@ -57,7 +58,7 @@ def category_courseE():
     # Colection = []
     Colection = category_course_module.getE(id)
 
-    return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    return jsonify( Colection ), 200
 
 
 # @category_course_api.route("/getCategoryCourseBy", methods=['GET'])

@@ -165,7 +165,7 @@
 
     function initCategoryCollection(selectId){
 
-        let url = "http://localhost:3001/branch_of_kwnoledge_all"
+        let url = "http://localhost:7071/branch_of_kwnoledge_all"
 
         // Replace ./data.json with your JSON feed
         fetch(url)
@@ -175,14 +175,23 @@
         .then((data) => {
             // Work with JSON data here
 
+            console.log("data: ", data);
+
             let obj = JSON.parse(data);
+
+            console.log("OBJETO1: ", obj);
 
             let  select = document.getElementById(selectId);
 
             select.options.length = 0;
 
+            console.log("OBJETO: ", obj);
+
             obj.forEach(element => {
+            
+            console.log("ELEMENTO: ", element);
             select.options[select.options.length] = new Option(element.name, element.id);
+
             }); 
 
         })

@@ -20,12 +20,13 @@ def login():
         print("login")
 
         access =  user_module.authUser(user, password)
+        print("Object: ",access)
         msg = "credenciales incorrectas"
 
         if access:
             session['loggedin'] = True
-            session['id'] = access[0]
-            session['username'] = access[1]
+            session['id'] = access['id']
+            session['username'] = access['fname']
 
             return redirect(f"/home")
         else:

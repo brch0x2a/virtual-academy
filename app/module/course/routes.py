@@ -35,7 +35,8 @@ def category_courseBy():
     # Colection = []
     Colection = course_module.getCourseBy(categoryId)
 
-    return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    # return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    return jsonify(Colection), 200
 
 
 
@@ -49,7 +50,7 @@ def category_courseByBranch():
     # Colection = []
     Colection = course_module.getCourseByBranch(branch_id)
 
-    return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    return jsonify( Colection ), 200
 
 
 

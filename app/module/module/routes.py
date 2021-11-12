@@ -35,7 +35,8 @@ def category_moduleE():
     # Colection = []
     Colection = module_module.getModuleE(id)
 
-    return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    # return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    return jsonify( Colection ), 200
 
 
 @module_api.route('/modules', methods=['GET', 'POST'])
@@ -90,7 +91,8 @@ def get_ModulesBy():
     # Colection = []
     Colection = module_module.getModulesBy(id)
 
-    return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    # return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    return jsonify( Colection ), 200
 
 @module_api.route("/branch_of_knowledge", methods=['GET'])
 def brach_of_knowledge():

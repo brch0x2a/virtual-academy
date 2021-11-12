@@ -1,19 +1,21 @@
-import pymysql
-import os
 from app.module.branch_of_kwnoledge.models import Branch_of_knowledge
-from dotenv import load_dotenv
+from app.module.common.db.consumer import runGetScript, runUpdateScript
 
-load_dotenv()
 
-MYSQL_HOST = os.environ.get("MYSQL_HOST")
-MYSQL_USER = os.environ.get("MYSQL_USER")
-MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
-MYSQL_DB = os.environ.get("MYSQL_DB")
+def get_all_all():
+    
+    sql = '''
+        SELECT 
+            id, name, image
+        FROM
+            academy.Branch_of_knowledge;
+          '''
+ 
+    result = runGetScript(sql)
+
+    return result
 
 def get_all():
-    Library = []
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-    cursor = db.cursor()
 
     sql = '''
         SELECT 
@@ -21,47 +23,27 @@ def get_all():
         FROM
             academy.Branch_of_knowledge;
           '''
-    cursor.execute(sql)
+    
+    result = runGetScript(sql)
 
-    cursor.close()
-
-    result = cursor.fetchall()
-    print(len(result))
-
-    for e in result:
-
-        Library.append(Branch_of_knowledge(e[0], e[1], e[2]))
-
-    db.close()
-
-    return Library
+    return result
 
 
 
 def create(title, image):
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-
-    title = str(title)
-
-    cursor = db.cursor()
+    
 
     sql = "INSERT INTO Branch_of_knowledge(name, image)"\
         "Values(%s, %s)"
 
-    cursor.execute(sql, (title, image))
+    result = runUpdateScript(sql, (title, image))
 
-    db.commit()
 
-    cursor.close()
-
-    db.close()
-
-    return "Listo"
+    return result
 
 
 def delete(id):
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-    cursor = db.cursor()
+  
 
     print("delete id: %s", id)
 
@@ -72,24 +54,16 @@ def delete(id):
             id = %s;
           '''
 
-    cursor.execute(sql, (id))
-
-    cursor.close()
-
-    result = cursor.fetchall()
+    
+    result = runUpdateScript(sql, (id) )
+    
     print(len(result))
 
-    db.commit()
-    db.close()
 
-    return "Done"
+    return result
 
 
 def getE(id):
-    Library = []
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-    cursor = db.cursor()
-
 
     sql = '''
         SELECT 
@@ -99,37 +73,20 @@ def getE(id):
         where id = %s
           '''
 
-    cursor.execute(sql, (id))
-
-    cursor.close()
-
-    result = cursor.fetchall()
+  
+    result = runGetScript( sql, (id) )
     print(len(result))
 
-
-    for e in result:
-
-        Library.append(Branch_of_knowledge(e[0], e[1], e[2]))
-
-
-    db.close()
-
-    return Library
+    return result
 
 
 
 
 def update(id, name, image):
-    db = pymysql.connect(host=MYSQL_HOST, user=MYSQL_USER, password=MYSQL_PASSWORD, db=MYSQL_DB)
-
-
     id = str(id)
     name = str(name)
 
     image = str(image)
-
-
-    cursor = db.cursor()
 
     sql = ''' 
             UPDATE Branch_of_knowledge 
@@ -140,12 +97,6 @@ def update(id, name, image):
                 id = %s
     '''
 
-    cursor.execute(sql, (name, image, id))
+    result = runUpdateScript(sql, (name, image, id))
 
-    db.commit()
-
-    cursor.close()
-
-    db.close()
-
-    return "Listo"
+    return result

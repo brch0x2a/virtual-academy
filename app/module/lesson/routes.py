@@ -43,7 +43,8 @@ def get_LessonsBy():
     # Colection = []
     Colection = lesson_module.getLessonBy(id)
 
-    return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    # return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    return jsonify( Colection), 200
 
 
 @lesson_api.route("/deleteLesson")
