@@ -41,7 +41,7 @@
 
 ## Environment Details
 
-### For activate virtual eviroment run
+### To activate virtual eviroment run
 
 ```Bash
     source venv/bin/activate
