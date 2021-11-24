@@ -1,3 +1,7 @@
+// import initCategoryCollection from '/public/js/branch_of_kwnoledge_calls.js'
+
+// console.log("LOCATION: ", window.location);
+
 function edit(id){
   $.getJSON("/branch_of_kwnoledgeE?id="+id, data =>{
     let obj = data;
@@ -8,7 +12,6 @@ function edit(id){
     // $("#uimage").val(obj[0].image);
   });
 }
-
 
 function deleteE(id){
   $.getJSON("/delete_branch_of_kwnoledge?id="+id, data=>{

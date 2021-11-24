@@ -86,17 +86,17 @@ function set_video(video_id){
   player.videoId = video_id;
 }
 
-function initCategoryCollection(selectId){
-    console.log("id: "+selectId);
-    $.getJSON("/category_course", data =>{
-      let obj = data;
-      let  select = document.getElementById(selectId);
-      select.options.length = 0;
-      obj.forEach(element => {
-        select.options[select.options.length] = new Option(element.name, element.id);
-      });
-    });
-}
+// function initCategoryCollection(selectId){
+//     console.log("id: "+selectId);
+//     $.getJSON("/category_course", data =>{
+//       let obj = data;
+//       let  select = document.getElementById(selectId);
+//       select.options.length = 0;
+//       obj.forEach(element => {
+//         select.options[select.options.length] = new Option(element.name, element.id);
+//       });
+//     });
+// }
 
 function triggerNext(selectIdA, selectIdB){
     let option  = document.getElementById(selectIdA).value;
@@ -121,7 +121,6 @@ function triggerNextNext(selectIdA, selectIdB){
     });
   });
 }
-
 
 function edit(id){
   console.log("id: "+id);

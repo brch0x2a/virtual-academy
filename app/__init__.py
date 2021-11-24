@@ -12,6 +12,7 @@ from app.module.lesson.routes import lesson_api
 from app.module.category_course.routes import category_course_api
 from app.module.branch_of_kwnoledge.routes import branch_of_kwnoledge_api
 from app.module.enrollment.routes import enrollment_api
+import mimetypes
 
 import os
 from dotenv import load_dotenv
@@ -19,6 +20,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 UPLOAD_FOLDER = os.environ.get("APP_UPLOAD_FOLDER")
+
+# mimetypes.add_type('application/javascript', '.mjs')
+# mimetypes.add_type('application/javascript', '.js')
+# mimetypes.add_type('application/javascript', '.cjs')
 
 app = Flask(__name__, static_url_path='/public')
 

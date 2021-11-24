@@ -1,19 +1,16 @@
-function initCategoryCollection(selectId){
-  $.getJSON("/category_course", data=>{
-    // Work with JSON data here
-    let obj = data;
-    let  select = document.getElementById(selectId);
-    select.options.length = 0;
-    obj.forEach(element => {
-      select.options[select.options.length] = new Option(element.name, element.id);
-    }); 
-  });
+function fillHtmlElements(){
+  initCategoryCourseCollection("category");
 }
 
+$( document ).ready(
+  function(){
+    importScript('category_course_actions',fillHtmlElements); 
+  }
+);
 
 function edit(id){
   console.log("id: "+id);
-  initCategoryCollection("ucategory");
+  initCategoryCourseCollection("ucategory");
   $.getJSON("/getCourseById?courseId="+id, data =>{
     let obj = data;
     console.log("\n\n\n\nOBJ",obj[0]);
@@ -31,5 +28,3 @@ function deleteE(id){
     window.location.reload(true);
   });
 }
-
-initCategoryCollection("category"); 

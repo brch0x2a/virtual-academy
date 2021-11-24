@@ -1,15 +1,15 @@
-function initCategoryCollection(selectId){
-    console.log("id: "+selectId);
-    $.getJSON("/category_course", data =>{
-      let obj = data;
-      console.log("SELCT ID: ", selectId, "obj: ", obj);
-      let  select = document.getElementById(selectId);
-      select.options.length = 0;
-      obj.forEach(element => {
-        select.options[select.options.length] = new Option(element.name, element.id);
-      });
-    });
-}
+// function initCategoryCollection(selectId){
+//     console.log("id: "+selectId);
+//     $.getJSON("/category_course", data =>{
+//       let obj = data;
+//       console.log("SELCT ID: ", selectId, "obj: ", obj);
+//       let  select = document.getElementById(selectId);
+//       select.options.length = 0;
+//       obj.forEach(element => {
+//         select.options[select.options.length] = new Option(element.name, element.id);
+//       });
+//     });
+// }
 
 function triggerCourse(selectIdA, selectIdB){
   let option  = document.getElementById(selectIdA).value;
@@ -23,7 +23,6 @@ function triggerCourse(selectIdA, selectIdB){
   });
 }
   
-  
 function edit(id){
   console.log("id: "+id);
   initCategoryCollection("ucategory");
@@ -35,7 +34,6 @@ function edit(id){
     $("input[name='uid']").val(obj[0].id);
   });
 }
-  
   
 function deleteE(id){
   console.log(id);
