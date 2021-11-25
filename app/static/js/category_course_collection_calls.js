@@ -5,7 +5,7 @@ function fillHtmlElements(){
 
 $( document ).ready(
   function(){
-    importScript('category_course_actions',fillHtmlElements); 
+    importScript('BE_COMUNICATION/category_course_actions',fillHtmlElements); 
   }
 );
 
@@ -22,5 +22,4 @@ function fillEditForm(categoryCourse){
 
 function edit(id){
   getCategoryCourseE(id, fillEditForm);
-  //fillEditForm is sent as callbackFunction
 }

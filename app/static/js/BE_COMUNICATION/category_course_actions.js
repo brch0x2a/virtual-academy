@@ -12,7 +12,7 @@ function initCategoryCourseCollection(selectId){
 }
 
 function deleteCategoryCourseE(id){
-  console.log(id);
+  // console.log(id);
   $.getJSON("/delete_category_course?id="+id, data=>{
     window.location.reload(true);
   });

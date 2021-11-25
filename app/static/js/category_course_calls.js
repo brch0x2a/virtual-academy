@@ -4,27 +4,25 @@ function fillHtmlElements(){
 
 $( document ).ready(
   function(){
-    importScript('category_course_actions',fillHtmlElements); 
+    importScript('BE_COMUNICATION/course_actions');
+    importScript('BE_COMUNICATION/category_course_actions',fillHtmlElements); 
   }
 );
 
+function fillEditForm(course){
+  $("input[name='utitle']").val(course[0].title);
+  $("#udescription").val(course[0].description);
+  $("input[name='uid']").val(course[0].id);
+  $("#editCover").attr("src", course[0].image);
+  $("#category").val(course[0].description);
+}
+
 function edit(id){
-  console.log("id: "+id);
+  // console.log("id: "+id);
   initCategoryCourseCollection("ucategory");
-  $.getJSON("/getCourseById?courseId="+id, data =>{
-    let obj = data;
-    console.log("\n\n\n\nOBJ",obj[0]);
-    $("input[name='utitle']").val(obj[0].title);
-    $("#udescription").val(obj[0].description);
-    $("input[name='uid']").val(obj[0].id);
-    $("#editCover").attr("src", obj[0].image);
-    $("#category").val(obj[0].description);
-  });
+  getCourseById(id, fillEditForm);
 }
 
 function deleteE(id){
-  console.log(id);
-  $.getJSON("/deleteCourse?id="+id, data=>{
-    window.location.reload(true);
-  });
+  deleteCourseE(id);
 }

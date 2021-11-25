@@ -1,20 +1,20 @@
-// import initCategoryCollection from '/public/js/branch_of_kwnoledge_calls.js'
 
-// console.log("LOCATION: ", window.location);
+$( document ).ready(
+  function(){
+    importScript('BE_COMUNICATION/branch_of_knowledge_actions'); 
+  }
+);
+
+function fillEditForm(branchOfKnowledge){
+  $("input[name='utitle']").val(branchOfKnowledge[0].name);
+  $("input[name='uid']").val(branchOfKnowledge[0].id);
+  $("#editCover").attr("src", branchOfKnowledge[0].image);
+}
 
 function edit(id){
-  $.getJSON("/branch_of_kwnoledgeE?id="+id, data =>{
-    let obj = data;
-    console.log("OBJ",obj);
-    $("input[name='utitle']").val(obj[0].name);
-    $("input[name='uid']").val(obj[0].id);
-    $("#editCover").attr("src", obj[0].image);
-    // $("#uimage").val(obj[0].image);
-  });
+  getBranchOfKnowledgeE(id, fillEditForm);
 }
 
 function deleteE(id){
-  $.getJSON("/delete_branch_of_kwnoledge?id="+id, data=>{
-    window.location.reload(true);
-  });
+  deleteBranchOfKnowledgeE(id);
 }
