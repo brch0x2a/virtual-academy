@@ -12,3 +12,7 @@ function importScript( src, callBackFunction=undefined ) {
         }
     })
 }
+
+function callbackHandler(callBackFunction,data) {
+    callBackFunction(data);
+}

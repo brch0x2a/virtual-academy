@@ -22,7 +22,7 @@ function getCategoryCourseE(id,callBackFunction){
   // console.log("editing --> id: "+id);
   $.getJSON("/getCategoryCourseE?id="+id, data =>{
     const categoryCourse = data;
-    callBackFunction(categoryCourse);
+    callbackHandler(callBackFunction, data);
   });
 }
 
