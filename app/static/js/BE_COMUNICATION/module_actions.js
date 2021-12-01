@@ -1,10 +1,3 @@
-// function getCourseById(id, callBackFunction){
-//     // console.log("id: "+id);
-//     $.getJSON("/getCourseById?courseId="+id, data =>{
-//     callbackHandler(callBackFunction, data);
-//     });
-// }
-  
 function getModuleE(moduleId,callBackFunction){
     // console.log("id: "+moduleId);
     $.getJSON("/getModuleE?id="+moduleId, data =>{
