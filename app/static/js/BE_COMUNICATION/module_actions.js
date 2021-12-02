@@ -6,8 +6,14 @@ function getModuleE(moduleId,callBackFunction){
 }
 
 function deleteModuleE(id){
-    // console.log(id);
-    $.getJSON("/deleteModule?id="+id, data=>{
-      window.location.reload(true);
-    });
-  }
+  // console.log(id);
+  $.getJSON("/deleteModule?id="+id, data=>{
+    window.location.reload(true);
+  });
+}
+
+function getmoduleById(moduleId,callBackFunction){
+  $.getJSON("/getModuleBy?"+"id="+moduleId, data =>{
+    callbackHandler(callBackFunction, data);
+  });
+}

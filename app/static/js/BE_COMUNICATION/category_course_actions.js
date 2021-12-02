@@ -21,7 +21,6 @@ function deleteCategoryCourseE(id){
 function getCategoryCourseE(id,callBackFunction){
   // console.log("editing --> id: "+id);
   $.getJSON("/getCategoryCourseE?id="+id, data =>{
-    const categoryCourse = data;
     callbackHandler(callBackFunction, data);
   });
 }
