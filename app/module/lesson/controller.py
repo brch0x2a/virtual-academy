@@ -6,12 +6,15 @@ def createLesson(module, title, filepath, reading):
     title = str(title)
 
     print("\033[092m INSERT \033[0m")
+    
+    print("ARGS: ", (module, title, filepath, reading))
 
-    sql = "INSERT INTO Lesson(id_module, title, filepath, reading_path)"\
-        "Values(%s, %s, %s, %s)"
+    sql = "INSERT INTO Lesson(id_module, title, filepath)"\
+        "Values(%s, %s, %s)"
 
-    result = runUpdateScript( sql, (module, title, filepath, reading) )
+    result = runUpdateScript( sql, (module, title, filepath) )
 
+    print("RESULT: ", result)
     return result
 
 
@@ -26,7 +29,7 @@ def getAllLesson():
             Md.title,
             M.title,
             M.filepath,
-            M.reading_path
+            M.filepath
         FROM
             Lesson M
                 INNER JOIN
@@ -55,7 +58,7 @@ def getLessonBy(moduleId):
             Md.title,
             M.title,
             M.filepath,
-            M.reading_path
+            M.filepath
         FROM
             Lesson M
                 INNER JOIN

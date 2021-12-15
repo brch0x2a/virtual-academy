@@ -39,7 +39,7 @@
       {%for c in course %}
       <tr>
         <td>{{ c.id}}</td>
-        <td>{{ c.category}}</td>
+        <td>{{ c.name}}</td>
         <td>
           <img style="object-fit: scale-down;" src="{{ c.image}}" width="90" height="90">
 
@@ -49,7 +49,7 @@
         <td>{{ c.title}}</td>
         <td>{{ c.description}}</td>
         <td>
-          <a   onclick="edit({{ c.id }})">  
+          <a   onclick="edit({{ c.id }})">   
            <button  type="button" class="btn btn-primary" data-toggle="modal" data-target="#editForm">Editar</button>
           </a>
           <a onclick="deleteE({{ c.id }})">
@@ -88,7 +88,7 @@
       <div class="card" style="width: 24rem;">
         <div class="card-body">
     
-          <form method="POST" enctype=multipart/form-data class="" action="/catalogoCursos">
+          <form method="POST" enctype="multipart/form-data" class="" action="/catalogoCursos">
     
             <div class="form-group">
               <label for="" class="form-label">Categoria</label>
@@ -190,70 +190,8 @@
   </div>
 </div>
 
-<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/scriptImporter.js') }}" ></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/category_course_calls.js') }}" ></script>
 
-<script>
-
-
-function initCategoryCollection(selectId){
-
-    let url = "http://localhost:7071/category_course"
-
-    // Replace ./data.json with your JSON feed
-    fetch(url)
-      .then((response) => {
-        return response.json()
-      })
-      .then((data) => {
-        // Work with JSON data here
-
-        let obj = JSON.parse(data);
-
-        let  select = document.getElementById(selectId);
-
-        select.options.length = 0;
-
-        obj.forEach(element => {
-          select.options[select.options.length] = new Option(element.name, element.id);
-        }); 
-
-      })
-      .catch((err) => {
-        // Do something for an error here
-        console.log(err);
-      })
-    }
-
-
-     function edit(id){
-      console.log("id: "+id);
-
-      initCategoryCollection("ucategory");
-
-
-      $.getJSON("/getCourseE?id="+id, data =>{
-        let obj = JSON.parse(data);
-        console.log(obj[0]);
-
-        $("input[name='utitle']").val(obj[0].title);
-        $("#udescription").val(obj[0].description);
-        $("input[name='uid']").val(obj[0].id);
-        $("#editCover").attr("src", obj[0].image);
-        
-      });
-    }
-
-
-  function deleteE(id){
-        console.log(id);
-
-        $.getJSON("/deleteCourse?id="+id, data=>{
-          window.location.reload(true);
-        });
-
-      }
-
-    initCategoryCollection("category");
-
-</script>
 {% include "partials/footer.html" %}

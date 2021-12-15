@@ -158,74 +158,8 @@
   </div>
 </div>
 
-<script src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/scriptImporter.js') }}" ></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/category_course_collection_calls.js') }}" ></script>
 
-<script>
-
-
-    function initCategoryCollection(selectId){
-
-        let url = "http://localhost:7071/branch_of_kwnoledge_all"
-
-        // Replace ./data.json with your JSON feed
-        fetch(url)
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-            // Work with JSON data here
-
-            console.log("data: ", data);
-
-            let obj = JSON.parse(data);
-
-            console.log("OBJETO1: ", obj);
-
-            let  select = document.getElementById(selectId);
-
-            select.options.length = 0;
-
-            console.log("OBJETO: ", obj);
-
-            obj.forEach(element => {
-            
-            console.log("ELEMENTO: ", element);
-            select.options[select.options.length] = new Option(element.name, element.id);
-
-            }); 
-
-        })
-        .catch((err) => {
-            // Do something for an error here
-            console.log(err);
-        })
-    }
-
-   function edit(id){
-      console.log("id: "+id);
-
-      $.getJSON("/getCourseE?id="+id, data =>{
-        let obj = JSON.parse(data);
-        console.log(obj[0]);
-
-        $("input[name='utitle']").val(obj[0].name);
-        $("input[name='uid']").val(obj[0].id);
-        
-      });
-    }
-
-
-  function deleteE(id){
-        console.log(id);
-
-        $.getJSON("/delete_category_course?id="+id, data=>{
-          window.location.reload(true);
-        });
-
-      }
-
-initCategoryCollection("branch");
-initCategoryCollection("ubranch");
-
-</script>
 {% include "partials/footer.html" %}

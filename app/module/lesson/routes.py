@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 
 from app.module.lesson import controller as lesson_module
 
+from app.module.course import controller as course_module
+
 load_dotenv()
 
 
@@ -68,7 +70,9 @@ def deleteModule():
 def deleteCourse():
 
     mid = str(request.args.get("id"))
-    lesson_module.deleteCourseBy(mid)
+    #lesson_module.deleteCourseBy(mid)
+    course_module.deleteCourseBy(mid)
+    #lesson module?? --> it is not sended to course module??
 
     return redirect(f"/catalogoCursos")
 
@@ -88,6 +92,7 @@ def lesson():
 
         file = request.files['file']
 
+        filename = ""
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
@@ -97,7 +102,7 @@ def lesson():
         # print("%s %s %s"%(title, category, description))
     
 
-        print("%s %s %s %s"%(module, title, video, filename))
+        # print("%s %s %s %s"%(module, title, video, filename))
         lesson_module.createLesson(module, title, video, filename)
         
         return redirect(f"/lesson")

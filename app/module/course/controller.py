@@ -65,6 +65,23 @@ def getCourseBy(categoryId):
 
     return result
 
+def getCourseById(courseId):
+
+    sql = '''
+    SELECT 
+        Cs.id, Cc.name, Cs.title, Cs.description, Cs.image
+    FROM
+        Course Cs
+            INNER JOIN
+        Category_course Cc ON Cc.id = Cs.id_category
+    WHERE
+        Cs.id = %s
+          '''
+
+    result = runGetScript(sql, (courseId))
+
+    return result
+
 
 def getCourseByBranch(branch_id):
 

@@ -38,6 +38,19 @@ def category_courseBy():
     # return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
     return jsonify(Colection), 200
 
+@course_api.route("/getCourseById", methods=['GET'])
+def courseById():
+
+    courseId = str(request.args.get("courseId"))
+
+    print(courseId)
+
+    # Colection = []
+    Colection = course_module.getCourseById(courseId)
+
+    # return jsonify( json.dumps([ obj.__dict__ for obj in Colection] )), 200
+    return jsonify(Colection), 200
+
 
 
 @course_api.route("/getCourseByBranch", methods=['GET'])
@@ -89,6 +102,11 @@ def catalogoCursos():
     return render_template("course_module/category_course.html", course=Course)
 
 
+# @course_api.route("/getAllCourses", methods=['GET'])
+# def getAllCourses():
+#     courses = course_module.getAllCourses()
+#     return jsonify(courses), 200
+
 
 
 @course_api.route('/quiz', methods=['GET', 'POST'])
@@ -112,20 +130,24 @@ def updateCourse():
 
     if request.method == 'POST':
 
+        print("request.form", request.form)
         title = str(request.form['utitle'])
         category = int(request.form['ucategory'])
         description = str(request.form['udescription'])
         uid = str(request.form['uid'])
 
-        # print("id:%s\t t: %s c: %s d:%s"%(id, title, category, description))
+        # print("id:%s\t t: %s c: %s d:%s"%(uid, title, category, description))
+        # print("request.form", request.form)
 
         if 'file' not in request.files:
+                    # print("\n\n\n\nNO FILE PAPU\n\n\n\n")
                     flash('No file part')
                     return redirect(request.url)
 
         file = request.files['file']
 
         if file.filename == '':
+            # print("\n\n\n\nNO FILE PAPU\n\n\n\n")
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
